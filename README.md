@@ -1,27 +1,55 @@
-# GameCoordinator
+## Getting started
+```
+git clone https://github.com/LasseAndresen/GameCoordinator.git
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.5.
+npm install
+npm install -g @angular/cli
+npm install -g firebase-tools
+npm install --save firebase @angular/fire -f
+npm install firebase @angular/fire --save
 
-## Development server
+ng serve
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+localhost:4200
+```
 
-## Code scaffolding
+I recommend VS Code as editor. Recommended extensions:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![Recommended extensions](./src/assets/images/VSCodeExtensions.PNG?raw=true)
 
-## Build
+Firebase project:
+https://console.firebase.google.com/u/0/project/waitr-55a5a/overview
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Trello:
+https://trello.com/b/IlPgZXe4/boardgame-development
 
-## Running unit tests
+## Frontend documentation
+src/app/frontEnd contains 3 main folders: coreLayout, pages and shared.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+coreLayout has the main containers such as the top bar, side bar and page container.
 
-## Running end-to-end tests
+pages contains the various pages that can be navigated to from the sidebar.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+shared basically contains the rest; global style classes, shared UI components and UI entities.
 
-## Further help
+src/app/assets contains hard coded images and icons that are shown anywhere in the app.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Backend documentation
+### Database entities 
+Database entity classes are contained in src/app/backEnd/models.
+Each file should include an entity class implementing the DataBaseEntity interface and a factory class implementing the DataBaseEntityFactory interface.
+When querying the database, a factory is provided to the query method in FireStoreService, so that all data conversions are handled automatically and streamlined.
+
+The classes implementing the DataBaseEntity interface can have methods such as toDatabaseObject for every entry it has in the database. For instance, you might want to store the BoardGame entity in multiple locations for ease of querying, but the information you want to store might differ. Having a toDataBaseObject method for each case will make this easy to control.
+
+### Querying data
+All query methods should be contained in FirestoreService. Each query should have its own method that calls into the generic private methods. For more advanced queries, a new file should handle those that calls into FirestoreService.
+
+Four main generic query methods exist: queryCollection, queryCollectionWithListener, querySingleDocument and querySingleDocumentWithListener. The queryCollection and querySingleDocument methods get a snapshot of the data and should be used to query data that rarely updates.
+The 'WithListener' query methods return an observable object that will update real time when the collection or document updates in the database.
+
+### Updating and inserting data
+Work in progress
+
+### Maintaining denormalized data
+With NoSQL, denormalized data is encouraged. Instead of relying on the client to update the data everywhere everytime something changes in one place, this is done and maintained with Firestore Functions. These are created and deployed in a seperate repository (atm, only locally on my machine. I will create a github repo with a link in the future). This playlist gives a good intro to firebase functions https://www.youtube.com/playlist?list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf (You can ignore the UI vidoes if you want to speed it up).

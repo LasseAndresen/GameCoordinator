@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "waitr-55a5a": {
+      "hosting": {
+        "GameCoordinator": [
+          "waitr-55a5a"
+        ]
+      }
+    }
+  }
+}

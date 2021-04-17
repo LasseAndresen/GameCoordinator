@@ -1,0 +1,11 @@
+<div *ngIf="appInitialized" #mainContainer class="pages-wrap" style="position: relative;" [style.height.px]="appMinHeight">
+  <div #dialogInjectionContainer style="height: 1px"></div>
+  <top-bar></top-bar>
+  <div class="pages-body">
+    <left-menu></left-menu>
+    <div class="pages-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<loading [loading]="!appInitialized"></loading>

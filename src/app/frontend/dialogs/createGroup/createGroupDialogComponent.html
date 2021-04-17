@@ -1,0 +1,18 @@
+<dialog-window [height]="200" [width]="400">
+    <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%">
+        <div style="height: 30px; width: 100%">
+            <h4 style="padding: 5px; margin-left: 10px">{{'Create group'}}</h4>
+            <div style="height: 1px; width: 100%; background-color: gray;"></div>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: row; justify-content: start;">
+            <span style="margin-right: 10px; margin-left: 10px;">{{'Name'}}</span>
+            <input type="text" (keypress)="onKeyPress($event)" [(ngModel)]="nameText" (ngModelChange)="textChange()">
+        </div>
+        <div style="height: 50px; width: 100%; display: flex; flex-direction: row; justify-content: flex-end;">
+            <div style="display: flex; flex-direction: row;">
+                <gc-button [text]="'Confirm'" style="margin: 5px;" (onClick)="onConfirmClick()"></gc-button>
+                <gc-button [text]="'Cancel'" style="margin: 5px;" (onClick)="onCancelClick()"></gc-button>
+            </div>
+        </div>
+    </div>
+</dialog-window>

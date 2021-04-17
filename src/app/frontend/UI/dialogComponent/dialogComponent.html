@@ -1,0 +1,10 @@
+<div style="position: fixed; z-index: 1" 
+    [style.height.px]="applicationContext.appHeight"
+    [style.width.px]="applicationContext.appWidth">
+    <div style="position: fixed; background-color: black; opacity: 50%; height: 100%; width: 100%" (click)="onBackgroundClick()"></div>
+    <div style="display: flex; height: 100%; width: 100%; justify-content: center; align-items: center">
+        <div style="display: flex; background-color: white; opacity: 100%; z-index: 2; border-radius: 10px;" [style.height.px]="height" [style.width.px]="width">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

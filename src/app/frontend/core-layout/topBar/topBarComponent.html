@@ -1,0 +1,22 @@
+<div class="top-bar">
+  <div class="d-flex flex-row">
+    <div class="avatar">
+      <img src="{{avatarImgSrc}}" alt="avatar">
+    </div>
+    <div class="ml-2">
+      <ng-container *ngIf="!loggedIn">
+        <span class="user-name" title="{{'Not logged in'}}">{{'Not logged in'}}</span>
+        <div style="display: flex; flex-direction: row;">
+          <span class="user-post" (click)="onLoginClick()">{{'Log in'}}</span>
+          <!--<button class="search-btn" style="margin-left: 5px" >
+            <i class="fa fa-search fa-fw"></i>
+          </button>-->
+        </div>
+      </ng-container>
+      <ng-container *ngIf="loggedIn">
+        <span class="user-name" title="{{userName}}">{{userName}}</span>
+        <span class="user-post" (click)="onLogoutClick()">{{'Log out'}}</span>
+      </ng-container>
+    </div>
+  </div>
+</div>

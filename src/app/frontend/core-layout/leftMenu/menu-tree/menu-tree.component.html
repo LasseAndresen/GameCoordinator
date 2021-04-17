@@ -1,0 +1,14 @@
+<ul class="d-flex flex-column">
+  <li *ngFor="let item of items; let first = first" class="expand-horizontal">
+    <a class="d-flex align-items-center expand-horizontal py-2 link"
+      [routerLink]="[item.routerLink?.join('/')]" routerLinkActive="active" (click)="onItemClicked(item)">
+      <i class="fa fa-{{item.icon}} fa-fw icon"></i>
+      <span class="text ml-2">{{item.title}}</span>
+      <i *ngIf="item.children" class="ml-auto mr-2 fa fa-angle-{{item.expanded ? 'down' : 'right'}}"></i>
+    </a>
+
+    <div *ngIf="item.children && item.expanded" class="pl-2" [@collapse]="item.expanded">
+      <menu-tree [items]="item.children"></menu-tree>
+    </div>
+  </li>
+</ul>

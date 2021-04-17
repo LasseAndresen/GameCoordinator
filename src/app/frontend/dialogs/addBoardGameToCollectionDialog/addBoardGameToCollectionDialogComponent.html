@@ -1,0 +1,23 @@
+<dialog-window [height]="400" [width]="800">
+    <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%">
+        <div style="height: 30px; width: 100%">
+            <h4 style="padding: 5px; margin-left: 10px">{{'Add games to collection'}}</h4>
+            <div style="height: 1px; width: 100%; background-color: gray;"></div>
+        </div>
+        <div style="width: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+            <div *ngFor="let game of (boardGameLibrary | async)" style="height: 40px; width: 100%; display: flex; flex-direction: column;">
+                <span style="height: 100%; padding-top: 10px; padding-bottom: 10px">{{game.name}}</span>
+            </div>
+        </div>
+        <div style="height: 50px; width: 100%; display: flex; flex-direction: column;">
+            <div style="height: 1px; width: 100%; background-color: gray;"></div>
+            <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+                <gc-button style="align-self: center; margin: 5px" [text]="'Add new'" (onClick)="onAddToLibraryClick()"></gc-button>
+                <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+                    <gc-button [text]="'Confirm'" style="margin: 5px;" (onClick)="onConfirmClick()"></gc-button>
+                    <gc-button [text]="'Cancel'" style="margin: 5px;" (onClick)="onCancelClick()"></gc-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog-window>
