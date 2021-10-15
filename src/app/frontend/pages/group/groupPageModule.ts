@@ -11,7 +11,6 @@ import { UIModule } from '../../UI/ui.module';
     imports: [
         CommonModule,
         UIModule,
-        routing,
         AddBoardGameToCollectionDialogModule,
         CreateGroupDialogModule,
         AddGroupMembersDialogModule

@@ -9,7 +9,6 @@ import { UIModule } from '../../UI/ui.module';
 @NgModule({
     imports: [
         CommonModule,
-        routing,
         AddBoardGameToCollectionDialogModule,
         CreateGroupDialogModule,
         UIModule

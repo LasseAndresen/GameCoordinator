@@ -9,6 +9,7 @@ import { IDataBaseEntity } from '../models/IDataBaseEntity';
 import { Group, GroupFactory, CompactGroup } from '../models/Group';
 import { IDataBaseEntityFactory } from '../models/IDatabaseEntityFactory';
 import { GroupCache } from '../caches/GroupCache';
+import { filter, take } from 'rxjs/operators';
 
 export class QueryObservable<T> {
   public observable: BehaviorSubject<T>;
@@ -133,7 +134,6 @@ export class FirestoreService {
     const groupFactory = new GroupFactory();
     let firstPass = true;
     await new Promise<void>(async resolve => {
-      console.log('Starting promise');
       const unsubscribeFunc = (await this.getCollectionReference('Groups')).where('members', 'array-contains', loggedInUserGUID).onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           if (change.type === "added") {
@@ -145,6 +145,7 @@ export class FirestoreService {
             this.groupCache.removeCompactGroup(change.doc.id);
           }
         });
+
         if (firstPass) {
           resolve();
           firstPass = false;
@@ -152,11 +153,12 @@ export class FirestoreService {
       });
       this.groupCache.setCompactGroupUnsubscribeFunction(unsubscribeFunc);
     });
-    console.log('Done getting groups')
+
     return this.groupCache.getCompactGroups();
   }
 
   public async getGroupOverview(guid: string): Promise<BehaviorSubject<Group>> {
+    console.log('Getting overview for guid ', guid);
     if (!this._authService.authenticated) {
       return new BehaviorSubject(null);
     }

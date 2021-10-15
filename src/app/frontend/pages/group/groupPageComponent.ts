@@ -3,12 +3,13 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AddBoardGameToCollectionDialog } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialog';
 import { CreateGroupDialog } from '../../dialogs/createGroup/createGroupDialog';
 import { DashboardContext } from '../contexts/dashboardContext';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AddGroupMembersDialog } from '../../dialogs/addGroupMembers/addGroupMembersDialog';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { GroupPageView } from '../../../backend/views/groupPage';
 import { ApplicationContext } from '../../services/applicationContext';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'group-page',
@@ -27,18 +28,24 @@ export class GroupPageComponent implements OnInit, OnDestroy {
               private _applicationContext: ApplicationContext,
               private _addBoardGameToCollectionDialog: AddBoardGameToCollectionDialog,
               private _route: ActivatedRoute,
+              private _router: Router,
               private _addMembersDialog: AddGroupMembersDialog
     ) {  }
 
   async ngOnInit() {
+    this._uiSubscriptions.push(this._router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(event => this.onNavigationChange(event)));
     this.reload();
     this._uiSubscriptions.push(this._applicationContext.requestAppReload.subscribe(() => this.reload()));
   }
 
   public async reload() {
-    const groupGuid = this._route.snapshot.url[0].path;
+    const groupGuid = this._route.snapshot.url[1].path;
     this.view = new GroupPageView(groupGuid, this._afs, this._firestoreService);
-    this.view.initialize();
+    setTimeout(() => this.view.initialize());
+  }
+
+  private async onNavigationChange(event) {
+    this.reload();
   }
 
   async ngOnDestroy() {

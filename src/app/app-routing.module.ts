@@ -8,10 +8,6 @@ const routes: Routes = [
     redirectTo: 'pages/home',
     pathMatch: 'full',
   },
-  {
-    path: '**',
-    redirectTo: 'pages/home'
-  }
 ];
 
 @NgModule({
