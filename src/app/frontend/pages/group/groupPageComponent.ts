@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AddBoardGameToCollectionDialog } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialog';
-import { CreateGroupDialog } from '../../dialogs/createGroup/createGroupDialog';
-import { DashboardContext } from '../contexts/dashboardContext';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AddGroupMembersDialog } from '../../dialogs/addGroupMembers/addGroupMembersDialog';
 import { AngularFirestore } from '@angular/fire/firestore';

@@ -1,12 +1,13 @@
 import { AngularFirestore } from "@angular/fire/firestore";
 import { User } from "../models/User";
 import { BoardGame } from "../models/BoardGame";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { Group } from "../models/Group";
 import { FirestoreService } from "../services/FirestoreService";
 
 export class GroupPageView {
-  private unsubscribeFuncs: (() => void)[] = [];
+  private _subscriptions: Subscription[] = [];
+  private _unsubscribeFuncs: (() => void)[] = [];
   public group: Group;
   public members: User[]; // User[];
   public boardGames: BoardGame[]; // BehaviorSubject<BoardGame[]>;
@@ -19,7 +20,7 @@ export class GroupPageView {
   }
 
   public async initialize(): Promise<void> {
-    (await this._firestoreService.getGroupOverview(this.groupGuid)).subscribe(g => this.updateView(g));
+    this._subscriptions.push((await this._firestoreService.getGroupOverview(this.groupGuid)).subscribe(g => this.updateView(g)));
   }
 
   public updateView(group: Group) {
@@ -30,6 +31,7 @@ export class GroupPageView {
   }
 
   public destroy(): void {
-    this.unsubscribeFuncs.forEach(f => f());
+    this._unsubscribeFuncs.forEach(f => f());
+    this._subscriptions.forEach(s => s.unsubscribe());
   }
 }

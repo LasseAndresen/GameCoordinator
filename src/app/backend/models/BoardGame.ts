@@ -9,6 +9,8 @@ export class BoardGameFactory implements IDataBaseEntityFactory {
 
     boardGame.guid = object.id;
     boardGame.name = data.name;
+    boardGame.owners = data.owners;
+    boardGame.isFavorite = data.isFavorite;
 
     return boardGame;
   }
@@ -17,4 +19,6 @@ export class BoardGameFactory implements IDataBaseEntityFactory {
 export class BoardGame implements IDataBaseEntity {
   public guid: string = '';
   public name: string = '';
+  public owners: string[] = [];
+  public isFavorite: boolean = false;
 }

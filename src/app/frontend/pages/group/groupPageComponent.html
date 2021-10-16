@@ -3,7 +3,12 @@
     <card [cardTitle]="'Board game collection'" [isCollapse]="true">
       <div style="width: 100%; height: 100%">
         <div style="max-height: 600px">
-          <div *ngFor="let game of view?.boardGames" style="height: 15px">{{game.name}}</div>
+          <div *ngFor="let game of view?.boardGames" style="height: 15px">
+            <div class="d-flex flex-row">
+              <span>{{game.name + game.owners.join(', ')}}</span>
+              <i class="{{game.isFavorite ? 'fas' : 'far'}} fa-star ml-2 mouse-hand" title="Favorite"></i>
+            </div>
+          </div>
         </div>
       </div>
     </card>
