@@ -8,6 +8,8 @@ import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { GroupPageView } from '../../../backend/views/groupPage';
 import { ApplicationContext } from '../../services/applicationContext';
 import { filter } from 'rxjs/operators';
+import { BoardGame } from '../../../backend/models/BoardGame';
+import { User } from '../../../backend/models/User';
 
 @Component({
   selector: 'group-page',
@@ -52,7 +54,16 @@ export class GroupPageComponent implements OnInit, OnDestroy {
     this.view.destroy();
   }
 
+  public onFavoriteGameClicked(game: BoardGame) {
+    game.isFavorite = !game.isFavorite;
+    this._firestoreService.toggleFavoriteGroupBoardGame(game.guid, this.view.group.guid, game.isFavorite);
+  }
+
   public async onAddUserClicked() {
     this._addMembersDialog.show(this.view.group.guid);
+  }
+
+  public onRemoveUserClicked(user: User) {
+    this._firestoreService.addMemberToGroup
   }
 }

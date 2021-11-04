@@ -6,6 +6,7 @@ import { CreateGroupDialogModule } from '../../dialogs/createGroup/createGroupDi
 import { GroupPageComponent } from './groupPageComponent';
 import { AddGroupMembersDialogModule } from '../../dialogs/addGroupMembers/addGroupMembersModule';
 import { UIModule } from '../../UI/ui.module';
+import { GameOwnersPipe } from './pipes/game-owners-pipe.pipe';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { UIModule } from '../../UI/ui.module';
         AddGroupMembersDialogModule
     ],
     declarations: [
-        GroupPageComponent
+        GroupPageComponent,
+        GameOwnersPipe
     ]
 })
 export class GroupPageModule { }

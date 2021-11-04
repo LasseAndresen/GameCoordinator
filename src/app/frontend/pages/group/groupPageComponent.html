@@ -5,8 +5,8 @@
         <div style="max-height: 600px">
           <div *ngFor="let game of view?.boardGames" style="height: 15px">
             <div class="d-flex flex-row">
-              <span>{{game.name + game.owners.join(', ')}}</span>
-              <i class="{{game.isFavorite ? 'fas' : 'far'}} fa-star ml-2 mouse-hand" title="Favorite"></i>
+              <span>{{game.name + ' (' + (game.owners|gameOwners:view.members).join(', ') + ')'}}</span>
+              <i class="{{game.isFavorite ? 'fas' : 'far'}} fa-star ml-2" style="cursor: pointer;" title="Favorite" (click)="onFavoriteGameClicked(game)"></i>
             </div>
           </div>
         </div>
@@ -20,7 +20,10 @@
     <card [cardTitle]="'Members'" [isCollapse]="true">
       <div style="width: 100%; height: 100%">
         <div style="max-height: 600px">
-          <div *ngFor="let user of view?.members" style="height: 15px">{{user.name}}</div>
+          <div *ngFor="let user of view?.members" style="height: 15px">
+            {{user.name}}
+            <i class="fas fa-user-minus ml-2" style="cursor: pointer;" (click)="onRemoveUserClicked(user)"></i>
+          </div>
         </div>
         <div style="height: 30px; margin-top: 30px; justify-content: space-between; display: flex">
           <div>
@@ -33,12 +36,12 @@
       </div>
     </card>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6 mt-2">
     <card [cardTitle]="'Events'" [isCollapse]="true">
 
     </card>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6 mt-2">
     <card [cardTitle]="'History'" [isCollapse]="true">
 
     </card>

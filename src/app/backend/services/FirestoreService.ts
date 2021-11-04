@@ -228,4 +228,16 @@ export class FirestoreService {
       isAdmin: false
     }));
   }
+
+  public async removeUserFromGroup(userGuid: string, groupGuid: string) {
+    this.validateUserIsAuthenticated();
+    this.afs.collection('Groups/' + groupGuid + '/Members').doc(userGuid).delete();
+  }
+
+  public async toggleFavoriteGroupBoardGame(gameGuid: string, groupGuid: string, favorite: boolean) {
+    this.validateUserIsAuthenticated();
+    await (await this.getCollectionReference('Groups/' + groupGuid + 'BoardGames')).doc(gameGuid).update({
+      isFavorite: favorite
+    });
+  }
 }
