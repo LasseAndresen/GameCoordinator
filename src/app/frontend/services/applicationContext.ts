@@ -7,5 +7,7 @@ export class ApplicationContext {
     public appHeight: number;
     public appWidth: number;
 
+    public loggedInUser: {guid: string, name: string};
+
     public requestAppReload: Subject<void> = new Subject<void>();
 }

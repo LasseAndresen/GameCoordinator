@@ -37,6 +37,10 @@ export class GroupCache extends Cache {
     (<Group>this.cachedObjects[guid].value).updateBoardGames(boardGameData);
   }
 
+  public updatePosts(guid: string, postData: QuerySnapshot<any>) {
+    (<Group>this.cachedObjects[guid].value).updatePosts(postData);
+  }
+
   public addCompactGroup(group: CompactGroup) {
     this.validateCache();
     this._addObject(group, this._cachedCompactObjects, this._compactObjectCollectionObservable);

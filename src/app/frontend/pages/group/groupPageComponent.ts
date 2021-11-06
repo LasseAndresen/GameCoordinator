@@ -10,6 +10,7 @@ import { ApplicationContext } from '../../services/applicationContext';
 import { filter } from 'rxjs/operators';
 import { BoardGame } from '../../../backend/models/BoardGame';
 import { User } from '../../../backend/models/User';
+import { AddGroupPostDialog } from '../../dialogs/addGroupPost/addGroupPostDialog';
 
 @Component({
   selector: 'group-page',
@@ -29,7 +30,8 @@ export class GroupPageComponent implements OnInit, OnDestroy {
               private _addBoardGameToCollectionDialog: AddBoardGameToCollectionDialog,
               private _route: ActivatedRoute,
               private _router: Router,
-              private _addMembersDialog: AddGroupMembersDialog
+              private _addMembersDialog: AddGroupMembersDialog,
+              private _addGroupPostDialog: AddGroupPostDialog
     ) {  }
 
   async ngOnInit() {
@@ -64,6 +66,10 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   }
 
   public onRemoveUserClicked(user: User) {
-    this._firestoreService.addMemberToGroup
+    this._firestoreService.removeUserFromGroup(user.guid, this.view.group.guid);
+  }
+
+  public onNewPostClicked() {
+    this._addGroupPostDialog.show(this.view.group.guid, this.view.members.map(m => m.name), null);
   }
 }

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
+import { AngularFirestore, CollectionReference, QuerySnapshot, QueryDocumentSnapshot } from "@angular/fire/firestore";
 import AuthProvider = firebase.auth.AuthProvider;
 import { AngularFireAuth } from "@angular/fire/auth";
 import { BehaviorSubject } from 'rxjs';
 import { ApplicationContext } from '../../frontend/services/applicationContext';
+import { FirestoreService } from './FirestoreService';
+import { User, UserFactory } from '../models/User';
 
 
 @Injectable()
@@ -22,6 +25,7 @@ export class AuthService {
   }
 
   constructor(public afAuth: AngularFireAuth,
+              public afs: AngularFirestore,
               private _applicationContext: ApplicationContext
   ) {
       afAuth.authState.subscribe(user => {
@@ -29,6 +33,12 @@ export class AuthService {
         console.log('Authenticated user ', this._user);
         this._observableUser.next(user);
         if (!this.appInitialized.value) {
+          const userFactory = new UserFactory();
+          this.afs.collection('Users').doc(user.uid).ref.get().then(doc => {
+            const user = userFactory.fromDbObject(doc);
+            this._applicationContext.loggedInUser = {guid: user.guid, name: user.name};
+          });
+
           this.appInitialized.next(true);
         } else {
           this._applicationContext.requestAppReload.next();

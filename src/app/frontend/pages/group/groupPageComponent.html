@@ -46,4 +46,24 @@
 
     </card>
   </div>
+
+  <div class="col-md-6 mt-2">
+    <card [cardTitle]="'Posts'" [isCollapse]="true">
+      <div style="width: 100%; height: 100%">
+        <div style="max-height: 600px">
+          <div *ngFor="let user of view?.posts" style="height: 15px">
+            {{user.text}}
+          </div>
+        </div>
+        <div style="height: 30px; margin-top: 30px; justify-content: space-between; display: flex">
+          <div>
+            <span>New post</span>
+            <button class="btn btn-primary" style="margin-left: 5px" (click)="onNewPostClicked()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </card>
+  </div>
 </div>

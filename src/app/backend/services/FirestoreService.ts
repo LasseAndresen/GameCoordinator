@@ -3,13 +3,15 @@ import firebase from 'firebase/app';
 import { AngularFirestore, CollectionReference, QuerySnapshot, QueryDocumentSnapshot } from "@angular/fire/firestore";
 import AuthProvider = firebase.auth.AuthProvider;
 import { BoardGame, BoardGameFactory } from '../models/BoardGame';
+import { User, UserFactory } from '../models/User' ;
 import { AuthService } from './AuthService';
 import { BehaviorSubject } from 'rxjs';
 import { IDataBaseEntity } from '../models/IDataBaseEntity';
 import { Group, GroupFactory, CompactGroup } from '../models/Group';
 import { IDataBaseEntityFactory } from '../models/IDatabaseEntityFactory';
 import { GroupCache } from '../caches/GroupCache';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, timestamp } from 'rxjs/operators';
+import { GroupPost, GroupPostFactory } from '../models/GroupPost';
 
 export class QueryObservable<T> {
   public observable: BehaviorSubject<T>;
@@ -75,6 +77,10 @@ export class FirestoreService {
   }
 
   // Region: Back end functions to call from the front end
+
+  public async getUser(guid: string) {
+    return this.querySingleDocument('Users', guid, new UserFactory());
+  }
 
   public async addBoardGameToLibrary(game: BoardGame) {
     this.validateUserIsAuthenticated();
@@ -191,6 +197,16 @@ export class FirestoreService {
         }
       }));
     }));
+    let firstPostsGetDone = false;
+    promises.push(new Promise<void>(async resolve => {
+      unsubscribeCallbackFunctions.push((await this.getCollectionReference('GroupPosts')).where('groupID', '==', guid).orderBy('timestamp', 'desc').limit(5).onSnapshot(snapshot => {
+        this.groupCache.updatePosts(guid, snapshot);
+        if (!firstPostsGetDone) {
+          firstPostsGetDone = true;
+          resolve();
+        }
+      }));
+    }));
     this.groupCache.addUnsubscribeCallbackFunctions(guid, unsubscribeCallbackFunctions);
     await Promise.all(promises);
     return this.groupCache.getObject(guid);
@@ -238,6 +254,17 @@ export class FirestoreService {
     this.validateUserIsAuthenticated();
     await (await this.getCollectionReference('Groups/' + groupGuid + 'BoardGames')).doc(gameGuid).update({
       isFavorite: favorite
+    });
+  }
+
+  public async addNewGroupPost(post: GroupPost) {
+    this.validateUserIsAuthenticated();
+    const groupPostFactory = new GroupPostFactory();
+    const toPost = groupPostFactory.toDbObject(post);
+    delete toPost.timestamp;
+    await (await this.getCollectionReference('GroupPosts')).doc().set({
+      ...toPost,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
 }

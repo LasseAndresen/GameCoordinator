@@ -4,6 +4,7 @@ import { BoardGame } from "../models/BoardGame";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { Group } from "../models/Group";
 import { FirestoreService } from "../services/FirestoreService";
+import { GroupPost } from "../models/GroupPost";
 
 export class GroupPageView {
   private _subscriptions: Subscription[] = [];
@@ -11,6 +12,7 @@ export class GroupPageView {
   public group: Group;
   public members: User[]; // User[];
   public boardGames: BoardGame[]; // BehaviorSubject<BoardGame[]>;
+  public posts: GroupPost[];
   public events; // To be defined
   public history; // To be defined
 
@@ -27,6 +29,7 @@ export class GroupPageView {
     this.group = group;
     this.members = group.members;
     this.boardGames = group.boardGames;
+    this.posts = group.posts;
     console.log('Updated view ', this);
   }
 
