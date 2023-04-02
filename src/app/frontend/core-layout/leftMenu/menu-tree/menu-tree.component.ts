@@ -12,6 +12,9 @@ export class MenuTreeComponent implements OnInit {
   @Input()
   public items: MenuItem[];
 
+  @Input()
+  public level = 0;
+
   constructor() { }
 
   ngOnInit(): void {
