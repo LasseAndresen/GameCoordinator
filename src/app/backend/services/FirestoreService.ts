@@ -10,7 +10,6 @@ import { IDataBaseEntity } from '../models/IDataBaseEntity';
 import { Group, GroupFactory, CompactGroup } from '../models/Group';
 import { IDataBaseEntityFactory } from '../models/IDatabaseEntityFactory';
 import { GroupCache } from '../caches/GroupCache';
-import { filter, take, timestamp } from 'rxjs/operators';
 import { GroupPost, GroupPostFactory } from '../models/GroupPost';
 
 export class QueryObservable<T> {
@@ -261,10 +260,10 @@ export class FirestoreService {
     this.validateUserIsAuthenticated();
     const groupPostFactory = new GroupPostFactory();
     const toPost = groupPostFactory.toDbObject(post);
-    delete toPost.timestamp;
+    // delete toPost.timestamp;
     await (await this.getCollectionReference('GroupPosts')).doc().set({
       ...toPost,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      // timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
 }

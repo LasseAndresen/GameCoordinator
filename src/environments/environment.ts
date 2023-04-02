@@ -11,7 +11,7 @@ export const environment = {
     projectId: "waitr-55a5a",
     storageBucket: "waitr-55a5a.appspot.com",
     messagingSenderId: "332995722752",
-    appId: "1:332995722752:web:651f903a655096d04fa2e5"
+    appId: "1:332995722752:web:65ead97c8a96c9e14fa2e5"
   }
 };
 

@@ -12,7 +12,7 @@ export class GroupPostFactory implements IDataBaseEntityFactory {
     groupPost.eventID = data.eventID;
     groupPost.authorID = data.authorGuid;
     groupPost.authorName = data.authorName;
-    groupPost.timestamp = ObjectUtilities.convertDate(data.timestamp);
+    groupPost.timestamp = data.timestamp;
     groupPost.editTimestamp = data.editTimestamp;
     groupPost.text = data.text;
     groupPost.replies = data.replies?.map(r => {
@@ -20,7 +20,7 @@ export class GroupPostFactory implements IDataBaseEntityFactory {
       reply.guid = r.guid;
       reply.authorID = r.authorID;
       reply.authorName = r.authorName;
-      reply.timestamp = ObjectUtilities.convertDate(r.timestamp);
+      reply.timestamp = r.timestamp;
       reply.editTimestamp = r.editTimestamp;
       reply.replyToGuid = r.replyToGuid;
       return reply;

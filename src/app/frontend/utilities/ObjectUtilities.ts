@@ -6,7 +6,7 @@ export class ObjectUtilities {
     for (const field in object) {
       let value = object[field];
       if (Array.isArray(value)) { value = this.deepCopyObject(value) }
-      else if (field === 'timestamp') { value = value as firebase.firestore.Timestamp; console.log('Saving as timestamp'); }
+      else if (field === 'timestamp') { value = firebase.firestore.FieldValue.serverTimestamp() }
       else if (typeof value === 'object') { value = this.deepCopyObject(value) }
       toReturn[field] = value;
     }
