@@ -13,8 +13,8 @@ export const childRoutes: Routes = [
     component: MainContainerComponent,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', loadChildren: '../../pages/home/homePageModule#HomePageModule', component: HomePageComponent },
-      { path: 'groups/:id', loadChildren: '../../pages/group/groupPageModule#GroupPageModule', component: GroupPageComponent },
+      { path: 'home', loadChildren: () => import('../../pages/home/homePageModule').then(m => m.HomePageModule), component: HomePageComponent },
+      { path: 'groups/:id', loadChildren: () => import('../../pages/group/groupPageModule').then(m => m.GroupPageModule), component: GroupPageComponent },
       { path: '**', redirectTo: 'pages/home' }
     ]
   }
