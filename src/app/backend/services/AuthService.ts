@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
-import { AngularFirestore, CollectionReference, QuerySnapshot, QueryDocumentSnapshot } from "@angular/fire/firestore";
-import AuthProvider = firebase.auth.AuthProvider;
-import { AngularFireAuth } from "@angular/fire/auth";
 import { BehaviorSubject } from 'rxjs';
 import { ApplicationContext } from '../../frontend/services/applicationContext';
-import { FirestoreService } from './FirestoreService';
-import { User, UserFactory } from '../models/User';
+import { UserFactory } from '../models/User';
+import { Auth, AuthProvider, GoogleAuthProvider, User, authState, createUserWithEmailAndPassword, getRedirectResult, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from '@angular/fire/auth';
+import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
 
 
 @Injectable()
 export class AuthService {
-  private _user: firebase.User;
-  private _observableUser: BehaviorSubject<firebase.User> = new BehaviorSubject<firebase.User>(null);
+  private _user: User;
+  private _observableUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   public appInitialized: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -20,22 +17,22 @@ export class AuthService {
     return !!this._user;
   }
 
-  public get user(): BehaviorSubject<firebase.User> {
+  public get user(): BehaviorSubject<User> {
     return this._observableUser;
   }
 
-  constructor(public afAuth: AngularFireAuth,
-              public afs: AngularFirestore,
+  constructor(public afAuth: Auth,
+              public afs: Firestore,
               private _applicationContext: ApplicationContext
   ) {
-      afAuth.authState.subscribe(user => {
+      authState(afAuth).subscribe(user => {
         this._user = user;
         console.log('Authenticated user ', this._user);
         this._observableUser.next(user);
         if (!this.appInitialized.value) {
           const userFactory = new UserFactory();
-          this.afs.collection('Users').doc(user.uid).ref.get().then(doc => {
-            const user = userFactory.fromDbObject(doc);
+          getDoc(doc(this.afs, 'Users/' + user.uid)).then(snapshot => {
+            const user = userFactory.fromDbObject(snapshot);
             this._applicationContext.loggedInUser = {guid: user.guid, name: user.name};
           });
 
@@ -47,12 +44,11 @@ export class AuthService {
     }
 
 	public signInWithEmail(credentials) {
-		return this.afAuth.signInWithEmailAndPassword(credentials.email,
-			 credentials.password);
-    }
+		return signInWithEmailAndPassword(this.afAuth, credentials.email, credentials.password);
+  }
 
   public signUp(credentials) {
-    return this.afAuth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+    return createUserWithEmailAndPassword(this.afAuth, credentials.email, credentials.password);
   }
 
   public getEmail() {
@@ -64,16 +60,16 @@ export class AuthService {
   }
 
   public async signInWithGoogle() {
-    return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
+    return this.oauthSignIn(new GoogleAuthProvider());
   }
 
   private oauthSignIn(provider: AuthProvider) {
     if (!(<any>window).cordova) {
-      return this.afAuth.signInWithPopup(provider);
+      return signInWithPopup(this.afAuth, provider);
     } else {
-      return this.afAuth.signInWithRedirect(provider)
+      return signInWithRedirect(this.afAuth, provider)
         .then(() => {
-          return this.afAuth.getRedirectResult().then(result => {
+          return getRedirectResult(this.afAuth).then(result => {
             // This gives you a Google Access Token.
             // You can use it to access the Google API.
             // let token = result.credential.accessToken;

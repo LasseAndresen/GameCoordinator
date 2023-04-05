@@ -1,9 +1,9 @@
-import { QueryDocumentSnapshot } from "@angular/fire/firestore";
+import { DocumentData, QueryDocumentSnapshot } from "@angular/fire/firestore";
 import { IDataBaseEntity } from "./IDataBaseEntity";
 import { IDataBaseEntityFactory } from "./IDatabaseEntityFactory";
 
 export class BoardGameFactory implements IDataBaseEntityFactory {
-  public fromDbObject(object: QueryDocumentSnapshot<any>): BoardGame {
+  public fromDbObject(object: QueryDocumentSnapshot<DocumentData>): BoardGame {
     const boardGame = new BoardGame();
     const data = object.data();
 

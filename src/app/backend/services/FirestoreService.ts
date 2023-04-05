@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
-import { AngularFirestore, CollectionReference, QuerySnapshot, QueryDocumentSnapshot } from "@angular/fire/firestore";
-import AuthProvider = firebase.auth.AuthProvider;
 import { BoardGame, BoardGameFactory } from '../models/BoardGame';
 import { User, UserFactory } from '../models/User' ;
 import { AuthService } from './AuthService';
@@ -11,6 +8,7 @@ import { Group, GroupFactory, CompactGroup } from '../models/Group';
 import { IDataBaseEntityFactory } from '../models/IDatabaseEntityFactory';
 import { GroupCache } from '../caches/GroupCache';
 import { GroupPost, GroupPostFactory } from '../models/GroupPost';
+import { Firestore, collection, collectionData, onSnapshot, collectionSnapshots, doc, docData, CollectionReference, DocumentData, addDoc, setDoc, deleteDoc, query, where, getDoc, QuerySnapshot, orderBy, limit, getDocs, updateDoc, FieldValue, arrayUnion } from '@angular/fire/firestore';
 
 export class QueryObservable<T> {
   public observable: BehaviorSubject<T>;
@@ -21,7 +19,7 @@ export class QueryObservable<T> {
 export class FirestoreService {
   private groupCache: GroupCache;
 
-  constructor(public afs: AngularFirestore,
+  constructor(public afs: Firestore,
               private _authService: AuthService
   ) {
     this.groupCache = new GroupCache(_authService);
@@ -31,8 +29,8 @@ export class FirestoreService {
   private async queryCollection(path: string, objectFactory: IDataBaseEntityFactory): Promise<any[]> { // TODO: Add filter input
     const toReturn = [];
 
-    await this.afs.collection(path).ref.get().then((snapshot: QuerySnapshot<any>) => {
-      snapshot.forEach((doc: QueryDocumentSnapshot<any>) => {console.log('Setting return data'); toReturn.push(objectFactory.fromDbObject(doc));});
+    await collectionData(collection(this.afs, path)).toPromise().then((snapshot) => {
+      snapshot.forEach((doc) => {console.log('Setting return data'); toReturn.push(objectFactory.fromDbObject(doc));});
     });
     console.log('Reutring collection ', toReturn);
     return toReturn;
@@ -41,31 +39,30 @@ export class FirestoreService {
   private async queryCollectionWithListener(path: string, objectFactory: IDataBaseEntityFactory): Promise<QueryObservable<IDataBaseEntity[]>> {
     const listener = new BehaviorSubject<any[]>(null);
 
-    const _unsubscribeCallBack = this.afs.collection(path).ref.onSnapshot((snapshot: QuerySnapshot<any>) => {
+    const _unsubscribeCallBack = collectionSnapshots(collection(this.afs, path)).subscribe(snapshot => {
       const updatedData = [];
-      snapshot.forEach((doc: QueryDocumentSnapshot<any>) => updatedData.push(objectFactory.fromDbObject(doc)));
+      snapshot.forEach((doc) => updatedData.push(objectFactory.fromDbObject(doc)));
       listener.next(updatedData);
     });
 
-    return {observable: listener, unsubscribeCallBackFunction: _unsubscribeCallBack} as QueryObservable<any>;
+    return {observable: listener, unsubscribeCallBackFunction: () => _unsubscribeCallBack.unsubscribe()} as QueryObservable<any>;
   }
 
   private async querySingleDocument(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory): Promise<IDataBaseEntity> {
-    return objectFactory.fromDbObject(await this.afs.collection(collectionPath).doc(docID).ref.get());
+    return objectFactory.fromDbObject(await docData(doc(this.afs, collectionPath + "/" + docID)).toPromise());
   }
 
   private async querySingleDocumentWithListener(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory): Promise<QueryObservable<IDataBaseEntity>> {
     const listener = new BehaviorSubject<IDataBaseEntity>(null);
-    const _unsubscribeCallBack = await this.afs.collection(collectionPath).doc(docID).ref
-      .onSnapshot(change => {
-        listener.next(objectFactory.fromDbObject(change));
-      });
+    const _unsubscribeCallBack = onSnapshot(doc(this.afs, collectionPath + "/" + docID), snap =>
+        listener.next(objectFactory.fromDbObject(snap))
+    );
 
     return {observable: listener, unsubscribeCallBackFunction: _unsubscribeCallBack} as QueryObservable<any>;
   }
 
-  private async getCollectionReference(collectionPath: string) {
-    return this.afs.collection(collectionPath).ref;
+  private getCollectionReference(collectionPath: string): CollectionReference<DocumentData> {
+    return collection(this.afs, collectionPath);
   }
 
   private async validateUserIsAuthenticated() {
@@ -83,7 +80,7 @@ export class FirestoreService {
 
   public async addBoardGameToLibrary(game: BoardGame) {
     this.validateUserIsAuthenticated();
-    (await this.getCollectionReference('BoardGames')).add({
+    await addDoc(this.getCollectionReference('BoardGames'), {
       name: game.name
     });
   }
@@ -99,7 +96,7 @@ export class FirestoreService {
   public async addBoardGameToCollection(game: BoardGame) {
     this.validateUserIsAuthenticated();
     const loggedInUser = this._authService.user.value;
-    this.afs.collection('Users/' + loggedInUser.uid + '/BoardGames').doc(game.guid).set({
+    setDoc(doc(this.afs, 'Users/' + loggedInUser.uid + '/BoardGames/' + game.guid), {
       name: game.name
     });
   }
@@ -109,7 +106,7 @@ export class FirestoreService {
     if (!loggedInUser) {
       throw new Error('User was not authenticated');
     }
-    this.afs.collection('Users/' + loggedInUser.uid + '/BoardGames').doc(game.guid).delete();
+    deleteDoc(doc(this.afs, 'Users/' + loggedInUser.uid + '/BoardGames/' + game.guid));
   }
 
   public async getBoardGameCollection(userGUID: string = null): Promise<BoardGame[]> {
@@ -139,7 +136,7 @@ export class FirestoreService {
     const groupFactory = new GroupFactory();
     let firstPass = true;
     await new Promise<void>(async resolve => {
-      const unsubscribeFunc = (await this.getCollectionReference('Groups')).where('members', 'array-contains', loggedInUserGUID).onSnapshot(snapshot => {
+      const unsubscribeFunc = onSnapshot(query(this.getCollectionReference('Groups'), where('members', 'array-contains', loggedInUserGUID)), snapshot => {
         snapshot.docChanges().forEach(change => {
           if (change.type === "added") {
             const group = groupFactory.fromDbCompactObject(change.doc);
@@ -173,12 +170,12 @@ export class FirestoreService {
     const loggedInUserGUID = this._authService.user.value.uid;
     const groupFactory = new GroupFactory();
     const promises = [];
-    const doc = await this.afs.collection('Groups').doc(guid).ref.get();
-    this.groupCache.addObject(groupFactory.fromDbObject(doc, null, null));
+    const document = await getDoc(doc(this.afs, 'Groups/' + guid));
+    this.groupCache.addObject(groupFactory.fromDbObject(document, null, null));
     const unsubscribeCallbackFunctions = [];
     let firstMemberGetDone = false;
     promises.push(new Promise<void>(resolve => {
-      unsubscribeCallbackFunctions.push(doc.ref.collection('Members').onSnapshot(snapshot => {
+      unsubscribeCallbackFunctions.push(onSnapshot(collection(this.afs, document.ref.path + '/Members'), snapshot => {
         this.groupCache.updateMembers(guid, snapshot);
         if (!firstMemberGetDone) {
           firstMemberGetDone = true;
@@ -188,7 +185,7 @@ export class FirestoreService {
     }));
     let firstBoardGamesGetDone = false;
     promises.push(new Promise<void>(resolve => {
-      unsubscribeCallbackFunctions.push(doc.ref.collection('BoardGames').onSnapshot(snapshot => {
+      unsubscribeCallbackFunctions.push(onSnapshot(collection(this.afs, document.ref.path + '/BoardGames'), snapshot => {
         this.groupCache.updateBoardGames(guid, snapshot);
         if (!firstBoardGamesGetDone) {
           firstBoardGamesGetDone = true;
@@ -198,7 +195,8 @@ export class FirestoreService {
     }));
     let firstPostsGetDone = false;
     promises.push(new Promise<void>(async resolve => {
-      unsubscribeCallbackFunctions.push((await this.getCollectionReference('GroupPosts')).where('groupID', '==', guid).orderBy('timestamp', 'desc').limit(5).onSnapshot(snapshot => {
+      unsubscribeCallbackFunctions.push(onSnapshot(query(this.getCollectionReference('GroupPosts'), where('groupID', '==', guid), orderBy('timestamp', 'desc'), limit(5)),
+      snapshot => {
         this.groupCache.updatePosts(guid, snapshot);
         if (!firstPostsGetDone) {
           firstPostsGetDone = true;
@@ -214,44 +212,44 @@ export class FirestoreService {
   public async createGroup(group: Group): Promise<void> {
     this.validateUserIsAuthenticated();
     const loggedInUser = this._authService.user.value;
-    const addedDocument = await this.afs.collection('Groups').add({
+    const addedDocument = await addDoc(collection(this.afs, 'Groups'), {
       name: group.name,
       members: [loggedInUser.uid]
     });
-    addedDocument.collection('Members').doc(loggedInUser.uid).set({
+    setDoc(doc(this.afs, addedDocument.path + '/Members', loggedInUser.uid), {
       name: loggedInUser.displayName,
       isAdmin: true
-    })
+    });
   }
 
   public async addMemberToGroup(email: string, groupID: string) {
     // TODO: send invitation
     this.validateUserIsAuthenticated();
-    const userDoc = await (await (await this.getCollectionReference('Users')).where('Email', '==', email).get()).docs[0];
+    const userDoc = (await getDocs(query(this.getCollectionReference('Users'), where('Email', '==', email))))[0];
     if (userDoc == null) {
       console.log('User does not exist');
       return; // TODO throw exception when error handing is made
     }
     const userData = userDoc.data() as any;
     console.log('Adding user');
-    this.getCollectionReference('Groups').then(c => c.doc(groupID).update({
-      members: firebase.firestore.FieldValue.arrayUnion(userDoc.id)
-    }));
-    this.getCollectionReference('Groups/' + groupID + '/Members').then(c => c.doc(userDoc.id).set({
+    updateDoc(doc(this.afs, 'Groups/' + groupID), {
+      members: arrayUnion(userDoc.id)
+    });
+    setDoc(doc(this.afs, 'Groups/' + groupID + '/Members', userDoc.id), {
       name: userData.Name,
       email: userData.Email,
       isAdmin: false
-    }));
+    });
   }
 
   public async removeUserFromGroup(userGuid: string, groupGuid: string) {
     this.validateUserIsAuthenticated();
-    this.afs.collection('Groups/' + groupGuid + '/Members').doc(userGuid).delete();
+    deleteDoc(doc(this.afs, 'Groups/' + groupGuid + '/Members/' + userGuid));
   }
 
   public async toggleFavoriteGroupBoardGame(gameGuid: string, groupGuid: string, favorite: boolean) {
     this.validateUserIsAuthenticated();
-    await (await this.getCollectionReference('Groups/' + groupGuid + 'BoardGames')).doc(gameGuid).update({
+    await updateDoc(doc(this.afs, 'Groups/' + groupGuid + 'BoardGames/' + gameGuid), {
       isFavorite: favorite
     });
   }
@@ -261,7 +259,7 @@ export class FirestoreService {
     const groupPostFactory = new GroupPostFactory();
     const toPost = groupPostFactory.toDbObject(post);
     // delete toPost.timestamp;
-    await (await this.getCollectionReference('GroupPosts')).doc().set({
+    await addDoc(this.getCollectionReference('GroupPosts'), {
       ...toPost,
       // timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });

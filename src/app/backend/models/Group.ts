@@ -1,10 +1,10 @@
 import { IDataBaseEntity } from "./IDataBaseEntity";
-import { QueryDocumentSnapshot, QuerySnapshot } from "@angular/fire/firestore";
 import { IDataBaseEntityFactory } from "./IDatabaseEntityFactory";
 import { User, UserFactory } from "./User";
 import { BoardGame, BoardGameFactory } from "./BoardGame";
 import { GroupPost, GroupPostFactory } from "./GroupPost";
 import { ObjectUtilities } from "../../frontend/utilities/ObjectUtilities";
+import { QueryDocumentSnapshot, QuerySnapshot } from "@angular/fire/firestore";
 
 export class GroupFactory implements IDataBaseEntityFactory {
   public fromDbObject(groupData: QueryDocumentSnapshot<any>, memberData: QuerySnapshot<any>, boardGameData: QuerySnapshot<any>): Group {
@@ -66,6 +66,7 @@ export class Group implements IDataBaseEntity {
     const boardGames = [];
     const factory = new BoardGameFactory();
     boardGameData.forEach(doc => { if (doc.id !== null) {boardGames.push(factory.fromDbObject(doc))}});
+
     this.boardGames = boardGames;
   }
 

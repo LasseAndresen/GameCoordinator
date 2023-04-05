@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { AddBoardGameToCollectionDialog } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AddGroupMembersDialog } from '../../dialogs/addGroupMembers/addGroupMembersDialog';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { GroupPageView } from '../../../backend/views/groupPage';
 import { ApplicationContext } from '../../services/applicationContext';
@@ -25,7 +24,6 @@ export class GroupPageComponent implements OnInit, OnDestroy {
   public view: GroupPageView;
 
   constructor(private _firestoreService: FirestoreService,
-              private _afs: AngularFirestore,
               private _applicationContext: ApplicationContext,
               private _addBoardGameToCollectionDialog: AddBoardGameToCollectionDialog,
               private _route: ActivatedRoute,
@@ -42,7 +40,7 @@ export class GroupPageComponent implements OnInit, OnDestroy {
 
   public async reload() {
     const groupGuid = this._route.snapshot.url[1].path;
-    this.view = new GroupPageView(groupGuid, this._afs, this._firestoreService);
+    this.view = new GroupPageView(groupGuid, this._firestoreService);
     setTimeout(() => this.view.initialize());
   }
 

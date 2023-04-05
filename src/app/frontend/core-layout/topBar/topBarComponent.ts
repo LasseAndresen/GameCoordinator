@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../backend/services/AuthService';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import firebase from 'firebase/app';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'top-bar',
@@ -29,7 +29,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     this._subscriptions.forEach(s => s.unsubscribe());
   }
 
-  private updateUserInfo(user: firebase.User) {
+  private updateUserInfo(user: User) {
     this.userName = user != null ? user.displayName : '';
     this.loggedIn = user != null;
   }

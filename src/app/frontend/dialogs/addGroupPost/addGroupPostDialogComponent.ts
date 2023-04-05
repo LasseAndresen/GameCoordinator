@@ -4,7 +4,7 @@ import { FirestoreService } from "../../../backend/services/FirestoreService";
 import { ApplicationContext } from "../../services/applicationContext";
 import { DialogHandle } from "../../UI/dialogComponent/dialogHandle";
 import { AddGroupPostDialogArgs } from "./addGroupPostDialogArgs";
-import firebase from 'firebase/app';
+import { Timestamp } from "@angular/fire/firestore";
 
 @Component({
   templateUrl: './addGroupPostDialogComponent.html'
@@ -35,9 +35,9 @@ export class AddGroupPostDialogComponent implements OnDestroy, OnInit {
 
   public async onConfirmClick() {
     if (!!this.post.timestamp) {
-      this.post.editTimestamp = firebase.database.ServerValue.TIMESTAMP;
+      this.post.editTimestamp = Timestamp;
     } else {
-      this.post.timestamp = firebase.database.ServerValue.TIMESTAMP;
+      this.post.timestamp = Timestamp;
     }
     await this._firestoreService.addNewGroupPost(this.post);
     this._dialogHandle.closeDialog();

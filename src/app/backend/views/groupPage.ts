@@ -1,4 +1,3 @@
-import { AngularFirestore } from "@angular/fire/firestore";
 import { User } from "../models/User";
 import { BoardGame } from "../models/BoardGame";
 import { BehaviorSubject, Subscription } from "rxjs";
@@ -17,7 +16,6 @@ export class GroupPageView {
   public history; // To be defined
 
   constructor(private groupGuid: string,
-              private _afs: AngularFirestore,
               private _firestoreService: FirestoreService) {
   }
 

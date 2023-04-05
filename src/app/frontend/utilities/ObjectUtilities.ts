@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { Timestamp, serverTimestamp } from "@angular/fire/firestore";
 
 export class ObjectUtilities {
   public static deepCopyObject(object: {}) {
@@ -6,7 +6,7 @@ export class ObjectUtilities {
     for (const field in object) {
       let value = object[field];
       if (Array.isArray(value)) { value = this.deepCopyObject(value) }
-      else if (field === 'timestamp') { value = firebase.firestore.FieldValue.serverTimestamp() }
+      else if (field === 'timestamp') { value = serverTimestamp() }
       else if (typeof value === 'object') { value = this.deepCopyObject(value) }
       toReturn[field] = value;
     }
@@ -29,7 +29,7 @@ export class ObjectUtilities {
 
       // convert simple properties
       if (value && (value.hasOwnProperty('seconds')))
-        firebaseObject[key] = (value as firebase.firestore.Timestamp).toDate();
+        firebaseObject[key] = (value as Timestamp).toDate();
     }
     return firebaseObject;
   }
