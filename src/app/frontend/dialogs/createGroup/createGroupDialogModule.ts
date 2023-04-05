@@ -15,8 +15,7 @@ import { DialogModule } from "../../UI/dialogComponent/dialogModule";
     ],
     providers: [CreateGroupDialog],
     declarations: [
-      CreateGroupDialogComponent
-    ],
-    entryComponents: [CreateGroupDialogComponent]
+        CreateGroupDialogComponent
+    ]
 })
 export class CreateGroupDialogModule { }

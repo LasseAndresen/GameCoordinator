@@ -15,8 +15,7 @@ import { AddGroupPostDialog } from "./addGroupPostDialog";
     ],
     providers: [AddGroupPostDialog],
     declarations: [
-      AddGroupPostDialogComponent
-    ],
-    entryComponents: [AddGroupPostDialogComponent]
+        AddGroupPostDialogComponent
+    ]
 })
 export class AddGroupPostDialogModule { }

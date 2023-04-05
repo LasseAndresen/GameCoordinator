@@ -16,7 +16,6 @@ import { UIModule } from "../../UI/ui.module";
     providers: [AddBoardGameToCollectionDialog],
     declarations: [
         AddBoardGameToCollectionDialogComponent
-    ],
-    entryComponents: [AddBoardGameToCollectionDialogComponent]
+    ]
 })
 export class AddBoardGameToCollectionDialogModule { }

@@ -16,7 +16,6 @@ import { DialogModule } from "../../UI/dialogComponent/dialogModule";
     providers: [AddBoardGameToLibraryDialog],
     declarations: [
         AddBoardGameToLibraryDialogComponent
-    ],
-    entryComponents: [AddBoardGameToLibraryDialogComponent]
+    ]
 })
 export class AddBoardGameToLibraryDialogModule { }
