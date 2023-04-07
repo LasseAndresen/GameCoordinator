@@ -7,6 +7,7 @@ import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { getStorage, provideStorage } from "@angular/fire/storage";
 import { provideAuth, getAuth } from "@angular/fire/auth";
 import { connectFirestoreEmulator, enableIndexedDbPersistence, getFirestore, provideFirestore, } from "@angular/fire/firestore";
+import { BoardGameGeekApiCaller } from "./services/boardGameGeekApiCaller";
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { connectFirestoreEmulator, enableIndexedDbPersistence, getFirestore, pro
     providers: [
       AuthService,
       FirestoreService,
+      BoardGameGeekApiCaller,
       ApplicationContext],
     exports: [
     ]

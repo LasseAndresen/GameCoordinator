@@ -8,6 +8,7 @@ import { BoardGame } from '../../../backend/models/BoardGame';
 import { CompactGroup } from '../../../backend/models/Group';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { ApplicationContext } from '../../services/applicationContext';
+import { BoardGameGeekApiCaller } from '../../../backend/services/boardGameGeekApiCaller';
 
 @Component({
   selector: 'home-page',
@@ -26,7 +27,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
               private _applicationContext: ApplicationContext,
               private _addBoardGameToCollectionDialog: AddBoardGameToCollectionDialog,
               private _createGroupDialog: CreateGroupDialog,
-              private _dashboardContext: DashboardContext
+              private _dashboardContext: DashboardContext,
+              private _bggApi: BoardGameGeekApiCaller
     ) { }
 
   async ngOnInit() {
@@ -78,6 +80,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   public onManageGroupClicked(id: string) {
-
+    this._bggApi.getBoardGames([266192]);
+    this._bggApi.search('Wingspan', false);
   }
 }
