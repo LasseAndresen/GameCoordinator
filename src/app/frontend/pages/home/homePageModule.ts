@@ -5,13 +5,15 @@ import { AddBoardGameToCollectionDialogModule } from '../../dialogs/addBoardGame
 import { CreateGroupDialogModule } from '../../dialogs/createGroup/createGroupDialogModule';
 import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
+import { LayoutModule } from '../../core-layout/layout.module';
 
 @NgModule({
     imports: [
         CommonModule,
         AddBoardGameToCollectionDialogModule,
         CreateGroupDialogModule,
-        UIModule
+        UIModule,
+        LayoutModule
     ],
     declarations: [
         HomePageComponent

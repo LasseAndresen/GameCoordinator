@@ -14,13 +14,14 @@ $table-border-color: #12121f;
 $fonts-color: #afaeae;
 $highlight-color: #363636;
 $primary: #1c1e23;
-$secondary: #333333;
+$secondary: #303030;
 $success: #04ad53;
 $danger: #ff184a;
 $warning: #ff7300;
 $info: #1e65ff;
 body {
   background: $body-bg;
+  color: $fonts-color;
 }
 
 .bg-default {
