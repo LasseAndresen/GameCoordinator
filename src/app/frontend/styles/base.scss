@@ -11,6 +11,18 @@ div {
     overflow: -moz-scrollbars-none;// firefox滚动条隐藏，但无法滚动
 } */
 
+.text-small {
+  font-size: $sm-text;
+}
+
+.text-smallest {
+  font-size: $smt-text;
+}
+
+.text-large {
+  font-size: $lg-text;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
