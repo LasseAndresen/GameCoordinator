@@ -23,6 +23,10 @@ div {
   font-size: $lg-text;
 }
 
+.text-header {
+  font-size: $header-text;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
