@@ -1,7 +1,6 @@
 import { Injectable, ComponentFactoryResolver } from "@angular/core";
-import { ApplicationContext } from "../../services/applicationContext";
 import { DialogService } from "../../services/dialogService";
-import { BoardgameDetailComponent } from "./boardgameDetailComponent";
+import { BoardgameDetailDialogComponent } from "./boardgameDetailDialogComponent";
 
 @Injectable()
 export class BoardgameDetailDialog {
@@ -9,6 +8,6 @@ export class BoardgameDetailDialog {
 
     }
     public show() {
-        this._dialogService.showDialog<BoardgameDetailComponent>(BoardgameDetailComponent, []);
+        this._dialogService.showDialog<BoardgameDetailDialogComponent>(BoardgameDetailDialogComponent, []);
     }
 }

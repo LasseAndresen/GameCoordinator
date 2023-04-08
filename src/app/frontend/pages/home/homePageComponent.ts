@@ -10,7 +10,7 @@ import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { ApplicationContext } from '../../services/applicationContext';
 import { BoardGameGeekApiCaller } from '../../../backend/services/boardGameGeekApiCaller';
 import { BoardgameDetailComponent } from '../../components/boardgameDetail/boardgameDetailComponent';
-import { BoardgameDetailDialog } from '../../components/boardgameDetail/boardgameDetailDialog';
+import { BoardgameDetailDialog } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialog';
 
 @Component({
   selector: 'home-page',

@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 
 @Component({
   templateUrl: './boardgameDetailComponent.html',
-  standalone: false
+  selector: 'boardgame-details',
+  standalone: true
 })
 export class BoardgameDetailComponent implements OnDestroy, OnInit {
 

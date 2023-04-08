@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { routing } from './homePageRouting';
 import { AddBoardGameToCollectionDialogModule } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialogModule';
 import { CreateGroupDialogModule } from '../../dialogs/createGroup/createGroupDialogModule';
 import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
-import { LayoutModule } from '../../core-layout/layout.module';
+import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
 
 @NgModule({
     imports: [
@@ -13,7 +12,7 @@ import { LayoutModule } from '../../core-layout/layout.module';
         AddBoardGameToCollectionDialogModule,
         CreateGroupDialogModule,
         UIModule,
-        LayoutModule
+        BoardgameDetailDialogModule
     ],
     declarations: [
         HomePageComponent
