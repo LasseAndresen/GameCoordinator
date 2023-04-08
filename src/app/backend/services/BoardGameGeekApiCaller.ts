@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BggClient } from 'boardgamegeekclient';
-import { BggSearchDto, BggThingDto } from "boardgamegeekclient/dist/esm/dto";
+import { BggCollectionDto, BggSearchDto, BggThingDto } from "boardgamegeekclient/dist/esm/dto";
 
 @Injectable()
 export class BoardGameGeekApiCaller {
@@ -26,5 +26,18 @@ export class BoardGameGeekApiCaller {
     console.log('Fetched thing ', result);
 
     return result;
+  }
+
+  public async getCollection(bggUsername: string): Promise<BggCollectionDto[]> {
+    return this._client.collection.query({
+      username: bggUsername,
+      subtype: 'boardgame'
+    });
+  }
+
+  public async getHotGames() {
+    return this._client.hot.query({
+      type: 'boardgame'
+    });
   }
 }
