@@ -82,9 +82,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this._createGroupDialog.show();
   }
 
-  public onManageGroupClicked(id: string) {
-    this._boardgameDetailDialog.show();
-    // this._bggApi.getBoardGames([266192]);
+  public async onManageGroupClicked(id: string) {
+    const game = (await this._bggApi.getBoardGames([266192]))[0];
+    this._boardgameDetailDialog.show(game);
     // this._bggApi.search('Wingspan', false);
   }
 }

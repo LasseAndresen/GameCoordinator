@@ -1,9 +1,9 @@
 <div class="d-flex flex-row p-3 bg-primary" style="height: 400px; width: 700px;">
   <div class="d-flex flex-column justify-content-start" style="width: 20%">
-    <img src="https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__imagepage/img/uIjeoKgHMcRtzRSR4MoUYl3nXxs=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4458123.jpg">
+    <img [src]="game.thumbnail">
   </div>
   <div class="d-flex flex-column justify-content-start flex-grow-1 ml-3">
-    <h3>Testing</h3>
-    <span>This is a description</span>
+    <h3>{{game.name}}</h3>
+    <span>{{game.description}}</span>
   </div>
 </div>
