@@ -29,8 +29,8 @@ export class FirestoreService {
   private async queryCollection(path: string, objectFactory: IDataBaseEntityFactory): Promise<any[]> { // TODO: Add filter input
     const toReturn = [];
 
-    await collectionData(collection(this.afs, path)).toPromise().then((snapshot) => {
-      snapshot.forEach((doc) => {console.log('Setting return data'); toReturn.push(objectFactory.fromDbObject(doc));});
+    await getDocs(collection(this.afs, path)).then((snapshot) => {
+      snapshot.forEach(doc => toReturn.push(objectFactory.fromDbObject(doc)));
     });
     console.log('Reutring collection ', toReturn);
     return toReturn;

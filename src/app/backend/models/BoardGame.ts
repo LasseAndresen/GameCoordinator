@@ -12,6 +12,7 @@ export class BoardGameFactory implements IDataBaseEntityFactory {
     boardGame.name = data.name;
     boardGame.owners = data.owners;
     boardGame.isFavorite = data.isFavorite;
+    boardGame.bggID = data.bggID;
 
     return boardGame;
   }

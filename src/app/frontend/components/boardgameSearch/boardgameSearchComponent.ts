@@ -55,8 +55,7 @@ export class BoardgameSearchComponent implements OnInit, OnDestroy {
       try {
         this.isLoading = true;
         const result = await this._bggApi.search(searchString, false);
-        console.log('Results ', result);
-        this.options = result?.length > 0 ? (await this._bggApi.getBoardGames(result.map(r => r.id).splice(0, 30))) : [];
+        this.options = result?.length > 0 ? (await this._bggApi.getBoardGames(result.splice(0, 30).map(r => r.id))) : [];
         this.options.sort((a, b) => b.statistics.ratings.average - a.statistics.ratings.average);
       } catch (e) {
         throw e;
