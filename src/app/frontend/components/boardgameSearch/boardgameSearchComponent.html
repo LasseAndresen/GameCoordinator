@@ -1,0 +1,16 @@
+<input type="text"
+      placeholder="Type to search"
+      (input)="onSearchInputChange($event)"
+      matInput
+      [matAutocomplete]="auto">
+<mat-autocomplete #auto="matAutocomplete"
+                  [autoActiveFirstOption]="true"
+                  [panelWidth]="300"
+  (optionSelected)="onOptionSelected($event)">
+  <mat-option *ngFor="let game of options" [value]="game">
+    <div class="d-flex flex-row">
+      <img class="align-self-center" style="height: 24px; width: 24px;" [src]="game.thumbnail">
+      <span class="ml-2 text-small flex-grow-1 text-ellipsis">{{game.name}}</span>
+    </div>
+  </mat-option>
+</mat-autocomplete>

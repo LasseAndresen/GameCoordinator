@@ -11,6 +11,7 @@ import { ApplicationContext } from '../../services/applicationContext';
 import { BoardGameGeekApiCaller } from '../../../backend/services/boardGameGeekApiCaller';
 import { BoardgameDetailComponent } from '../../components/boardgameDetail/boardgameDetailComponent';
 import { BoardgameDetailDialog } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialog';
+import { BackendUtilities } from '../../../backend/utilities/backendUtilities';
 
 @Component({
   selector: 'home-page',
@@ -48,9 +49,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   public async loadBoardGames(): Promise<void> {
-    this._firebaseService.getBoardGameCollection().then(data => {
+    this._firebaseService.getBoardGameCollection().then(async data => {
+      await BackendUtilities.fillBggDataForBoardGames(this._bggApi, data);
       this.boardGameCollection = data;
-    })
+    });
   }
 
   public async loadGroups(): Promise<void> {

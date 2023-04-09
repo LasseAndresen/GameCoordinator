@@ -1,27 +1,29 @@
 import { Injectable } from "@angular/core";
 import { BggClient } from 'boardgamegeekclient';
 import { BggCollectionDto, BggSearchDto, BggThingDto } from "boardgamegeekclient/dist/esm/dto";
+import { BggSearchItemDto } from "boardgamegeekclient/dist/esm/dto/concrete/subdto";
 
 @Injectable()
 export class BoardGameGeekApiCaller {
   private _client = BggClient.Create();
 
-  public async search(searchString: string, exact: boolean): Promise<BggSearchDto[]> {
+  public async search(searchString: string, exact: boolean): Promise<BggSearchItemDto[]> {
     const result = await this._client.search.query({
       query: searchString,
       type: ['boardgame'],
-      exact: exact ? 1 : 0
+      exact: exact ? 1 : 0,
     });
     console.log('Result from search ', result);
 
-    return result;
+    return result[0].items;
   }
 
   public async getBoardGames(IDs: number[]): Promise<BggThingDto[]> {
+    console.log('Fetching IDs ', IDs);
     const result: BggThingDto[] = await this._client.thing.query({
       id: IDs,
       stats: 1,
-      type: 'boardgame'
+      type: ['boardgame', 'boardgameexpansion']
     });
     console.log('Fetched thing ', result);
 
