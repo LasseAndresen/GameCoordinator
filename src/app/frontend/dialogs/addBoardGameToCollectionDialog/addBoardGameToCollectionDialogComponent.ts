@@ -4,13 +4,14 @@ import { BehaviorSubject } from "rxjs";
 import { BoardGame } from "../../../backend/models/BoardGame";
 import { FirestoreService, QueryObservable } from "../../../backend/services/FirestoreService";
 import { DialogHandle } from "../../UI/dialogComponent/dialogHandle";
+import { BggThingDto } from "boardgamegeekclient/dist/esm/dto";
 
 @Component({
     templateUrl: './addBoardGameToCollectionDialogComponent.html'
   })
 export class AddBoardGameToCollectionDialogComponent implements OnDestroy, OnInit {
     public boardGameLibrary: BehaviorSubject<BoardGame[]>;
-    public ownedBoardGameGuids: string[] = [];
+    public ownedBoardGameIDs: number[] = [];
     public selectedBoardGames: BoardGame[] = [];
     private _dbSubscriptions: (() => void)[] = []; // Callback functions to unsubscribe database listeners when closing the dialog. Otherwise they would pesist and leak memory/cost
 
@@ -22,8 +23,8 @@ export class AddBoardGameToCollectionDialogComponent implements OnDestroy, OnIni
         const queryObservable = <QueryObservable<BoardGame[]>>(await this._firestoreService.getBoardGameLibrary(true));
         this.boardGameLibrary = queryObservable.observable;
         this._dbSubscriptions.push(queryObservable.unsubscribeCallBackFunction);
-        this.ownedBoardGameGuids = (await this._firestoreService.getBoardGameCollection()).map(c => c.guid);
-        console.log('Owned board games ', this.ownedBoardGameGuids);
+        this.ownedBoardGameIDs = (await this._firestoreService.getBoardGameCollection()).map(c => c.bggID);
+        console.log('Owned board games ', this.ownedBoardGameIDs);
     }
 
     public closeDialog() {
@@ -34,8 +35,18 @@ export class AddBoardGameToCollectionDialogComponent implements OnDestroy, OnIni
         this._dbSubscriptions.forEach(s => s());
     }
 
-    public onBoardGameClicked(game: BoardGame) {
-      if (this.ownedBoardGameGuids.includes(game.guid))
+    public onBoardgameSelectedFromSearch(game: BggThingDto) {
+      this.addBoardGameToSelected({
+        guid: game.id.toString(),
+        bggID: game.id,
+        name: game.name,
+        isFavorite: false,
+        bggThing: game
+      } as BoardGame);
+    }
+
+    public addBoardGameToSelected(game: BoardGame) {
+      if (this.ownedBoardGameIDs.includes(game.bggID))
         return;
       if (!this.selectedBoardGames.includes(game))
         this.selectedBoardGames.push(game);

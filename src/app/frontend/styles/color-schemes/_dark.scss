@@ -34,26 +34,26 @@ body {
   );
 }
 
-.bg-primary {
-  @include linear-gradient(to top right, $primary, #00000070);
+.bg-primary2 {
+  @include linear-gradient(to top right, $primary, #333333);
 }
 
-.bg-secondary {
+.bg-secondary2 {
   @include linear-gradient(to top right, $secondary, #999696);
 }
 
-.bg-success {
+.bg-success2 {
   @include linear-gradient(to top right, $success, #1dffc7);
 }
 
-.bg-danger {
+.bg-danger2 {
   @include linear-gradient(to top right, $danger, #fc85a2);
 }
 
-.bg-warning {
+.bg-warning2 {
   @include linear-gradient(to top right, $warning, #fce16a);
 }
 
-.bg-info {
+.bg-info2 {
   @include linear-gradient(to top right, $info, #04f7fb);
 }

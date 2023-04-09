@@ -97,7 +97,8 @@ export class FirestoreService {
     this.validateUserIsAuthenticated();
     const loggedInUser = this._authService.user.value;
     setDoc(doc(this.afs, 'Users/' + loggedInUser.uid + '/BoardGames/' + game.guid), {
-      name: game.name
+      name: game.name,
+      bggID: game.bggID
     });
   }
 
