@@ -43,16 +43,27 @@ export class MenuComponent implements OnInit, OnDestroy {
     groups.value.forEach(g => groupItems.push(<MenuItem>{
       routerLink: ['groups', g.guid],
       title: g.name,
-      icon: 'group',
     }));
     console.log('groupItems, ', groupItems);
     const groupItem = <MenuItem>{
       title: 'Groups',
-      icon: 'group',
+      icon: 'user-group',
       expanded: true,
       children: groupItems
     };
-    this.menuItems = [dashboardItem, groupItem];
+
+    const collectionItem = <MenuItem>{
+      routerLink: ['my-collection'],
+      title: 'My games',
+      icon: 'dice',
+    };
+
+    const browseItem = <MenuItem>{
+      routerLink: ['browse'],
+      title: 'Browse',
+      icon: 'chess-board',
+    };
+    this.menuItems = [dashboardItem, groupItem, collectionItem, browseItem];
     this.isLoading = false;
   }
 }
