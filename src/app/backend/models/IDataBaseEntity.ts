@@ -1,6 +1,6 @@
 import { QueryDocumentSnapshot } from "@angular/fire/firestore";
 
-export interface IDataBaseEntity {
+export interface IDataBaseEntity<T = void> {
   guid: string;
 }
 

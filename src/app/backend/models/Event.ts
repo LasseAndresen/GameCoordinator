@@ -1,4 +1,4 @@
-import { QueryDocumentSnapshot } from "@angular/fire/firestore";
+import { QueryDocumentSnapshot, Timestamp } from "@angular/fire/firestore";
 import { ObjectUtilities } from "../../frontend/utilities/ObjectUtilities";
 import { IDataBaseEntity } from "./IDataBaseEntity";
 import { IDataBaseEntityFactory } from "./IDatabaseEntityFactory";
@@ -6,11 +6,10 @@ import { User } from "./User";
 
 export class GroupPostFactory implements IDataBaseEntityFactory {
   public fromDbObject(object: QueryDocumentSnapshot<any>): Event {
-    const groupPost = new Event();
+    const groupPost = {} as Event;
     const data = object.data();
     groupPost.guid = object.id;
     groupPost.groupID = data.groupID;
-    groupPost.eventID = data.eventID;
     groupPost.authorID = data.authorGuid;
     groupPost.authorName = data.authorName;
     groupPost.timestamp = data.timestamp;
@@ -27,29 +26,41 @@ export class GroupPostFactory implements IDataBaseEntityFactory {
   }
 }
 
-export class Event implements IDataBaseEntity {
-  public guid: string;
-  public groupID: string;
-  public eventID: string;
-  public authorID: string;
-  public authorName: string;
+export interface Event extends IDataBaseEntity<Event> {
+  guid: string;
+  groupID: string;
+  authorID: string;
+  authorName: string;
   // Author profile pic
-  public timestamp: any;
-  public editTimestamp: any;
-  public title: string;
-  public description: string;
-  public startTime: Date;
-  public endTime: Date;
-  public locationDescription: string;
-  public location: {lat: number, long: number};
-  public locationMapsUrl: string;
-  public participants: {user: User[], invitedStatus: InvitationStatus};
-
+  timestamp: Timestamp;
+  editTimestamp: Timestamp;
+  title: string;
+  description: string;
+  startTime: Date;
+  endTime: Date;
+  location: {
+    name: string;
+    description: string;
+    address: string; // a maps link
+  };
+  gamesPoll: {
+    options: string[];
+    votes: Record<string, number>; // object with game names as keys and number of votes as values
+  };
+  participants: {
+    user: User[],
+    invitedStatus: InvitationStatus
+  };
+  eventChat: { // array of messages in the chat
+    author: string;
+    message: string;
+    timestamp: Timestamp;
+  };
 }
 
 export enum InvitationStatus {
   invited,
   accepted,
-  maybe,
+  tentative,
   declined
 }

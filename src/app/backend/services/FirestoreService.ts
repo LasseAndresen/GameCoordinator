@@ -10,9 +10,9 @@ import { GroupCache } from '../caches/GroupCache';
 import { GroupPost, GroupPostFactory } from '../models/GroupPost';
 import { Firestore, collection, collectionData, onSnapshot, collectionSnapshots, doc, docData, CollectionReference, DocumentData, addDoc, setDoc, deleteDoc, query, where, getDoc, QuerySnapshot, orderBy, limit, getDocs, updateDoc, FieldValue, arrayUnion } from '@angular/fire/firestore';
 
-export class QueryObservable<T> {
-  public observable: BehaviorSubject<T>;
-  public unsubscribeCallBackFunction: () => void; // Invoke this when the data listener is not needed anymore. It unsubscribes the listener to the database.
+export type QueryObservable<T> = {
+  observable: BehaviorSubject<T>;
+  unsubscribeCallBackFunction: () => void; // Invoke this when the data listener is not needed anymore. It unsubscribes the listener to the database.
 }
 
 @Injectable()
@@ -25,8 +25,10 @@ export class FirestoreService {
     this.groupCache = new GroupCache(_authService);
   }
 
+  //#region Base methods
+
   // Region: Generic methods that should be used by all public functions
-  private async queryCollection(path: string, objectFactory: IDataBaseEntityFactory): Promise<any[]> { // TODO: Add filter input
+  private async queryCollection<TEntity extends IDataBaseEntity<TEntity>, TFactory>(path: string, objectFactory: IDataBaseEntityFactory<TFactory>): Promise<TEntity[]> { // TODO: Add filter input
     const toReturn = [];
 
     await getDocs(collection(this.afs, path)).then((snapshot) => {
@@ -36,7 +38,7 @@ export class FirestoreService {
     return toReturn;
   }
 
-  private async queryCollectionWithListener(path: string, objectFactory: IDataBaseEntityFactory): Promise<QueryObservable<IDataBaseEntity[]>> {
+  private async queryCollectionWithListener<TEntity extends IDataBaseEntity<TEntity>, TFactory>(path: string, objectFactory: IDataBaseEntityFactory<TFactory>): Promise<QueryObservable<TEntity[]>> {
     const listener = new BehaviorSubject<any[]>(null);
 
     const _unsubscribeCallBack = collectionSnapshots(collection(this.afs, path)).subscribe(snapshot => {
@@ -48,12 +50,12 @@ export class FirestoreService {
     return {observable: listener, unsubscribeCallBackFunction: () => _unsubscribeCallBack.unsubscribe()} as QueryObservable<any>;
   }
 
-  private async querySingleDocument(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory): Promise<IDataBaseEntity> {
-    return objectFactory.fromDbObject(await docData(doc(this.afs, collectionPath + "/" + docID)).toPromise());
+  private async querySingleDocument<TEntity extends IDataBaseEntity<TEntity>, TFactory>(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory<TFactory>): Promise<TEntity> {
+    return objectFactory.fromDbObject<TEntity>(await docData(doc(this.afs, collectionPath + "/" + docID)).toPromise());
   }
 
-  private async querySingleDocumentWithListener(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory): Promise<QueryObservable<IDataBaseEntity>> {
-    const listener = new BehaviorSubject<IDataBaseEntity>(null);
+  private async querySingleDocumentWithListener<TEntity extends IDataBaseEntity<TEntity>, TFactory>(collectionPath: string, docID: string, objectFactory: IDataBaseEntityFactory<TFactory>): Promise<QueryObservable<TEntity>> {
+    const listener = new BehaviorSubject<TEntity>(null);
     const _unsubscribeCallBack = onSnapshot(doc(this.afs, collectionPath + "/" + docID), snap =>
         listener.next(objectFactory.fromDbObject(snap))
     );
@@ -65,6 +67,10 @@ export class FirestoreService {
     return collection(this.afs, collectionPath);
   }
 
+  //#endregion Base methods
+
+  //#region Authentication
+
   private async validateUserIsAuthenticated() {
     const loggedInUser = this._authService.user.value;
     if (!loggedInUser) {
@@ -72,10 +78,12 @@ export class FirestoreService {
     }
   }
 
-  // Region: Back end functions to call from the front end
+  //#endregion Authentication
 
-  public async getUser(guid: string) {
-    return this.querySingleDocument('Users', guid, new UserFactory());
+  // From here: Back end functions to call from the front end
+
+  public async getUser(guid: string): Promise<User> {
+    return this.querySingleDocument<User, UserFactory>('Users', guid, new UserFactory());
   }
 
   public async addBoardGameToLibrary(game: BoardGame) {
@@ -87,11 +95,13 @@ export class FirestoreService {
 
   public async getBoardGameLibrary(withListener: boolean): Promise<BoardGame[] | QueryObservable<any[]>> {
     if (withListener) {
-      return await this.queryCollectionWithListener('BoardGames', new BoardGameFactory());
+      return await this.queryCollectionWithListener<BoardGame, BoardGameFactory>('BoardGames', new BoardGameFactory());
     } else {
-      return await this.queryCollection('BoardGames', new BoardGameFactory());
+      return await this.queryCollection<BoardGame, BoardGameFactory>('BoardGames', new BoardGameFactory());
     }
   }
+
+  //#region Collection
 
   public async addBoardGameToCollection(game: BoardGame) {
     this.validateUserIsAuthenticated();
@@ -119,8 +129,11 @@ export class FirestoreService {
       userGUID = this._authService.user.value.uid;
     }
     console.log('Getting board games for user ', userGUID);
-    return await this.queryCollection('Users/' + userGUID + '/BoardGames', new BoardGameFactory());
+    return await this.queryCollection<BoardGame, BoardGameFactory>('Users/' + userGUID + '/BoardGames', new BoardGameFactory());
   }
+  //#endregion Collection
+
+  //#region Groups
 
   public async getUserGroups(): Promise<BehaviorSubject<CompactGroup[]>> {
     if (!this._authService.authenticated) {
@@ -265,4 +278,11 @@ export class FirestoreService {
       // timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
+
+  //#endregion
+
+  //#region Events
+
+  //#endregion Events
+
 }

@@ -4,7 +4,7 @@ import { QueryDocumentSnapshot } from "@angular/fire/firestore";
 
 export class UserFactory implements IDataBaseEntityFactory {
   fromDbObject(userData: QueryDocumentSnapshot<any>): User {
-    const user = new User();
+    const user = {} as User;
     const data = userData.data();
 
     user.guid = userData.id;
@@ -14,7 +14,7 @@ export class UserFactory implements IDataBaseEntityFactory {
   }
 }
 
-export class User implements IDataBaseEntity {
+export interface User extends IDataBaseEntity<User> {
   guid: string;
   name: string;
   email: string;

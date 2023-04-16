@@ -42,7 +42,7 @@ export class GroupFactory implements IDataBaseEntityFactory {
   }
 }
 
-export class Group implements IDataBaseEntity {
+export class Group implements IDataBaseEntity<Group> {
   public guid: string;
   public name: string;
   public members: User[];
@@ -79,7 +79,7 @@ export class Group implements IDataBaseEntity {
   }
 }
 
-export class CompactGroup implements IDataBaseEntity {
+export class CompactGroup implements IDataBaseEntity<CompactGroup> {
   public guid: string;
   public name: string;
   public memberCount: number;

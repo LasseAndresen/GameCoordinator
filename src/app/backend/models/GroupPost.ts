@@ -35,7 +35,7 @@ export class GroupPostFactory implements IDataBaseEntityFactory {
   }
 }
 
-export class GroupPost implements IDataBaseEntity {
+export class GroupPost implements IDataBaseEntity<GroupPost> {
   public guid: string;
   public groupID: string;
   public eventID: string;
@@ -52,7 +52,7 @@ export class GroupPost implements IDataBaseEntity {
   public replies: GroupPostReply[];
 }
 
-export class GroupPostReply implements IDataBaseEntity {
+export class GroupPostReply implements IDataBaseEntity<GroupPostReply> {
   public guid: string;
   public authorID: string;
   public authorName: string;
