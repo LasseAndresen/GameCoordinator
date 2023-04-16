@@ -5,17 +5,19 @@ import { CreateGroupDialogModule } from '../../dialogs/createGroup/createGroupDi
 import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
+import { CreateEventComponent } from "../../components/createEvent/createEventComponent";
 
 @NgModule({
+    declarations: [
+        HomePageComponent
+    ],
     imports: [
         CommonModule,
         AddBoardGameToCollectionDialogModule,
         CreateGroupDialogModule,
         UIModule,
-        BoardgameDetailDialogModule
-    ],
-    declarations: [
-        HomePageComponent
+        BoardgameDetailDialogModule,
+        CreateEventComponent
     ]
 })
 export class HomePageModule { }

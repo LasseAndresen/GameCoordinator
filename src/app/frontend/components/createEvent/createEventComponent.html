@@ -1,0 +1,76 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <label>
+    Title:
+    <input type="text" formControlName="title">
+  </label>
+  <br>
+  <label>
+    Description:
+    <textarea formControlName="description"></textarea>
+  </label>
+  <br>
+  <label>
+    Start time:
+    <input type="datetime-local" formControlName="startTime">
+  </label>
+  <br>
+  <label>
+    End time:
+    <input type="datetime-local" formControlName="endTime">
+  </label>
+  <br>
+  <div formGroupName="location">
+    <label for="locationName">Location Name:</label>
+    <input type="text" id="locationName" formControlName="name">
+
+    <label for="locationDescription">Location Description:</label>
+    <textarea id="locationDescription" formControlName="description"></textarea>
+
+    <label for="locationAddress">Location Address:</label>
+    <input type="text" id="locationAddress" formControlName="address">
+  </div>
+  <br>
+  <div formGroupName="gamesPoll">
+    <label for="gameOptions">Game Options:</label>
+    <div formArrayName="options">
+      <div *ngFor="let option of eventForm | abstractControlFromForm:'gamesPoll.options'; let i=index" class="option">
+        <input type="text" [formControlName]="i">
+        <button (click)="removeGamePollOption(i)" class="remove-option">-</button>
+      </div>
+      <button (click)="addGamePollOption()" class="add-option">Add Option</button>
+    </div>
+  </div>
+  <br>
+  <div formArrayName="participants">
+    <div *ngFor="let participant of eventForm | abstractControlFromForm:'participants'; let i=index" [formGroupName]="i">
+      <label>Participant {{i + 1}}</label>
+      <div formArrayName="user">
+        <input type="text" formControlName="firstName" placeholder="First Name">
+        <input type="text" formControlName="lastName" placeholder="Last Name">
+      </div>
+      <select formControlName="invitedStatus">
+        <option value="invited">Invited</option>
+        <option value="accepted">Accepted</option>
+        <option value="tentative">Tentative</option>
+        <option value="declined">Declined</option>
+      </select>
+      <button (click)="removeParticipant(i)" class="remove-participant">Remove Participant</button>
+    </div>
+    <button (click)="addParticipant()" class="add-participant">Add Participant</button>
+  </div>
+  <br>
+  <label>
+    Event chat:
+    <button type="button" (click)="addChatMessage()">Add message</button>
+    <div formArrayName="eventChat">
+      <div *ngFor="let message of eventForm | abstractControlFromForm:'eventChat'; let i = index;">
+        <input type="text" [formControlName]="'author'" placeholder="Author">
+        <input type="text" [formControlName]="'message'" placeholder="Message">
+        <input type="datetime-local" [formControlName]="'timestamp' + i" placeholder="Timestamp">
+        <button type="button" (click)="removeChatMessage(i)">Remove</button>
+      </div>
+    </div>
+  </label>
+  <br>
+  <button type="submit">Submit</button>
+</form>
