@@ -1,14 +1,18 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { InvitationStatus } from "../../../backend/models/Event";
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from "@angular/material/core";
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from "@angular/forms";
 import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPipe";
 
 @Component({
   templateUrl: './createEventComponent.html',
   selector: 'create-event',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AbstractFormControlFromFormPipe]
+  imports: [CommonModule, ReactiveFormsModule, AbstractFormControlFromFormPipe,
+            MatInputModule, MatDatepickerModule, MatNativeDateModule,]
 })
 export class CreateEventComponent{
   public InvitationStatus = InvitationStatus;
@@ -25,9 +29,10 @@ export class CreateEventComponent{
       timestamp: ['', Validators.required],
       editTimestamp: [''],
       title: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
+      startDate: ['', Validators.required],
       startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
+      endTime: [''],
       location: this._fb.group({
         name: [''],
         description: [''],
