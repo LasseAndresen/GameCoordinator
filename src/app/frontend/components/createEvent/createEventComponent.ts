@@ -6,6 +6,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from "@angular/forms";
 import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPipe";
+import MapQuestClient from "../../../backend/services/MapQuestService";
 
 @Component({
   templateUrl: './createEventComponent.html',
@@ -16,7 +17,8 @@ import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPi
 })
 export class CreateEventComponent{
   public InvitationStatus = InvitationStatus;
-  eventForm: FormGroup;
+  public eventForm: FormGroup;
+  public showEndtime = false;
 
   constructor(private _fb: FormBuilder) { }
 
@@ -32,6 +34,7 @@ export class CreateEventComponent{
       description: [''],
       startDate: ['', Validators.required],
       startTime: ['', Validators.required],
+      endDate: [''],
       endTime: [''],
       location: this._fb.group({
         name: [''],
@@ -88,6 +91,12 @@ export class CreateEventComponent{
 
   removeChatMessage(index: number): void {
     (this.eventForm.get('eventChat') as FormArray).removeAt(index);
+  }
+
+  removeEndTime() {
+    this.showEndtime = false;
+    this.eventForm.get('endDate').setValue(null);
+    this.eventForm.get('endTime').setValue(null);
   }
 
   onSubmit() {

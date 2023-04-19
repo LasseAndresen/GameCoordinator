@@ -21,13 +21,22 @@
       <input matInput type="time" formControlName="startTime">
     </mat-form-field>
   </div>
-  <br>
-  <mat-form-field>
-    <mat-label>End time</mat-label>
-    <input matInput formControlName="endTime" [matDatepicker]="endPicker">
-    <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
-    <mat-datepicker #endPicker></mat-datepicker>
-  </mat-form-field>
+  <span *ngIf="!showEndtime" class="text-smalle mouse-hand" style="color: lightblue"
+        (click)="showEndtime = true">+ End date and time</span>
+  <div *ngIf="showEndtime" class="d-flex flex-row">
+    <mat-form-field>
+      <mat-label>End date</mat-label>
+      <input matInput formControlName="endDate" [matDatepicker]="endPicker">
+      <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="ml-2">
+      <mat-label>End time</mat-label>
+      <input matInput type="time" formControlName="endTime">
+    </mat-form-field>
+  </div>
+  <span *ngIf="showEndtime" class="text-smalle mouse-hand" style="color: lightblue"
+        (click)="removeEndTime()">- End date and time</span>
   <br>
   <div formGroupName="location">
     <label for="locationName">Location Name:</label>
