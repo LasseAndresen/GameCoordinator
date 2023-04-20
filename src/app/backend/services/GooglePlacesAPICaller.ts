@@ -5,7 +5,7 @@ import { environment } from "../../../environments/environment";
 import {} from 'googlemaps';
 
 
-interface LocationSuggestion {
+export interface LocationSuggestion {
   description: string;
   place_id: string;
   structured_formatting: {
@@ -23,6 +23,10 @@ class GooglePlacesAPICaller {
   }
 
   async search(input: string): Promise<LocationSuggestion[]> {
+    if (input.length <= 3)  {
+      return [];
+    }
+
     const request = {
       input: input
       // bounds: defaultBounds,

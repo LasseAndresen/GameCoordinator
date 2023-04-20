@@ -39,8 +39,9 @@
         (click)="removeEndTime()">- End date and time</span>
   <br>
   <div formGroupName="location">
-    <label for="locationName">Location Name:</label>
+    <label for="locationName">Location</label>
     <input type="text" id="locationName" formControlName="name">
+    <address-search></address-search>
 
     <label for="locationDescription">Location Description:</label>
     <textarea id="locationDescription" formControlName="description"></textarea>

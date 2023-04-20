@@ -8,13 +8,14 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, } f
 import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPipe";
 import MapQuestClient from "../../../backend/services/MapQuestService";
 import GooglePlacesAPICaller from "../../../backend/services/GooglePlacesAPICaller";
+import { AddressSearchComponent } from "../addressSearch/addressSearchComponent";
 
 @Component({
-  templateUrl: './createEventComponent.html',
-  selector: 'create-event',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AbstractFormControlFromFormPipe,
-            MatInputModule, MatDatepickerModule, MatNativeDateModule,]
+    templateUrl: './createEventComponent.html',
+    selector: 'create-event',
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, AbstractFormControlFromFormPipe,
+        MatInputModule, MatDatepickerModule, MatNativeDateModule, AddressSearchComponent]
 })
 export class CreateEventComponent{
   public InvitationStatus = InvitationStatus;
