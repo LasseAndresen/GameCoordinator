@@ -7,6 +7,7 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from "@angular/forms";
 import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPipe";
 import MapQuestClient from "../../../backend/services/MapQuestService";
+import GooglePlacesAPICaller from "../../../backend/services/GooglePlacesAPICaller";
 
 @Component({
   templateUrl: './createEventComponent.html',
@@ -20,9 +21,12 @@ export class CreateEventComponent{
   public eventForm: FormGroup;
   public showEndtime = false;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder,
+              private _googlePlaces: GooglePlacesAPICaller,
+              private _mapQuest: MapQuestClient) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
     this.eventForm = this._fb.group({
       guid: ['', Validators.required],
       groupID: ['', Validators.required],
@@ -56,6 +60,8 @@ export class CreateEventComponent{
       ]),
       eventChat: this._fb.array([])
     });
+    const places = await this._googlePlaces.search('Ørestads Bou');
+    console.log('Got places! ', places);
   }
 
   addGamePollOption(): void {
