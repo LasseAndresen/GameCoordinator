@@ -17,5 +17,5 @@ export class UserFactory implements IDataBaseEntityFactory {
 export interface User extends IDataBaseEntity<User> {
   guid: string;
   name: string;
-  email: string;
+  email?: string;
 }

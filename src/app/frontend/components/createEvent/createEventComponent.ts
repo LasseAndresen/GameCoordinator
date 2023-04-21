@@ -10,6 +10,9 @@ import MapQuestClient from "../../../backend/services/MapQuestService";
 import GooglePlacesAPICaller, { LocationSuggestion } from "../../../backend/services/GooglePlacesAPICaller";
 import { AddressSearchComponent } from "../addressSearch/addressSearchComponent";
 import { MatButtonModule } from "@angular/material/button";
+import { Event } from '../../../backend/models/Event'
+import { FirestoreService } from "../../../backend/services/FirestoreService";
+import { AuthService } from "../../../backend/services/AuthService";
 
 @Component({
     templateUrl: './createEventComponent.html',
@@ -26,17 +29,16 @@ export class CreateEventComponent{
 
   constructor(private _fb: FormBuilder,
               private _googlePlaces: GooglePlacesAPICaller,
-              private _mapQuest: MapQuestClient) { }
+              private _firestoreService: FirestoreService,
+              private _authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
-
+    const user = this._authService.user.value;
     this.eventForm = this._fb.group({
-      guid: ['', Validators.required],
-      groupID: ['', Validators.required],
-      authorID: ['', Validators.required],
-      authorName: ['', Validators.required],
-      timestamp: ['', Validators.required],
-      editTimestamp: [''],
+      guid: [''],
+      groupID: [''], // Required?
+      authorID: [user.uid, Validators.required],
+      authorName: [user.displayName, Validators.required],
       title: ['', Validators.required],
       description: [''],
       startDate: ['', Validators.required],
@@ -44,7 +46,6 @@ export class CreateEventComponent{
       endDate: [''],
       endTime: [''],
       location: this._fb.group({
-        name: [''],
         description: [''],
         address: ['']
       }),
@@ -63,12 +64,10 @@ export class CreateEventComponent{
       ]),
       eventChat: this._fb.array([])
     });
-    const places = await this._googlePlaces.search('Ørestads Bou');
-    console.log('Got places! ', places);
   }
 
-  onAddressUpdated(address: LocationSuggestion) {
-
+  onAddressUpdated(address: string) {
+    this.eventForm.get('location.address').setValue(address);
   }
 
   addGamePollOption(): void {
@@ -113,9 +112,32 @@ export class CreateEventComponent{
   }
 
   onSubmit() {
+    console.log('Form ', this.eventForm);
     if (this.eventForm.valid) {
-      const eventData: Event = this.eventForm.getRawValue();
-      // pass eventData to a service or store for saving
+      const eventData = this.eventForm.getRawValue();
+      const newEvent: Event = {
+        guid: eventData.guid,
+        groupID: eventData.groupID,
+        authorID: eventData.authorID,
+        authorName: eventData.authorName,
+        timestamp: eventData.timestamp,
+        title: eventData.title,
+        description: eventData.description,
+        startTime: eventData.startTime,
+        endTime: eventData.endTime,
+        location: {
+          description: eventData.location.description,
+          address: eventData.location.address
+        },
+        participants: [{
+          user: {
+            guid: this._authService.user.value.uid,
+            name: this._authService.user.value.displayName,
+          },
+          invitedStatus: InvitationStatus.accepted
+        }]
+      };
+      this._firestoreService.addEvent(newEvent);
     }
   }
 }

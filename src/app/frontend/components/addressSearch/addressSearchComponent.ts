@@ -21,7 +21,7 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
   public isLoading = false;
 
   @Output()
-  public addressSelected = new EventEmitter<LocationSuggestion>();
+  public addressSelected = new EventEmitter<string>();
 
   @ViewChild('searchInput')
   private _inputElement: ElementRef;
@@ -77,6 +77,5 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
 
   public onOptionSelected(optionEvent: MatAutocompleteSelectedEvent) {
     this.addressSelected.emit(optionEvent.option.value);
-    this._inputElement.nativeElement.value = '';
   }
 }

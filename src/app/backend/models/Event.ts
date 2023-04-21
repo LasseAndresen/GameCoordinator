@@ -4,19 +4,19 @@ import { IDataBaseEntity } from "./IDataBaseEntity";
 import { IDataBaseEntityFactory } from "./IDatabaseEntityFactory";
 import { User } from "./User";
 
-export class GroupPostFactory implements IDataBaseEntityFactory {
+export class EventFactory implements IDataBaseEntityFactory {
   public fromDbObject(object: QueryDocumentSnapshot<any>): Event {
-    const groupPost = {} as Event;
+    const event = {} as Event;
     const data = object.data();
-    groupPost.guid = object.id;
-    groupPost.groupID = data.groupID;
-    groupPost.authorID = data.authorGuid;
-    groupPost.authorName = data.authorName;
-    groupPost.timestamp = data.timestamp;
-    groupPost.editTimestamp = data.editTimestamp;
-    groupPost.title = data.title;
-    groupPost.description = data.description;
-    return groupPost;
+    event.guid = object.id;
+    event.groupID = data.groupID;
+    event.authorID = data.authorGuid;
+    event.authorName = data.authorName;
+    event.timestamp = data.timestamp;
+    event.editTimestamp = data.editTimestamp;
+    event.title = data.title;
+    event.description = data.description;
+    return event;
   }
 
   public toDbObject(post: Event): any {
@@ -33,25 +33,24 @@ export interface Event extends IDataBaseEntity<Event> {
   authorName: string;
   // Author profile pic
   timestamp: Timestamp;
-  editTimestamp: Timestamp;
+  editTimestamp?: Timestamp;
   title: string;
   description: string;
   startTime: Date;
-  endTime: Date;
+  endTime?: Date;
   location: {
-    name: string;
     description: string;
     address: string; // a maps link
   };
-  gamesPoll: {
+  gamesPoll?: {
     options: string[];
     votes: Record<string, number>; // object with game names as keys and number of votes as values
   };
   participants: {
-    user: User[],
+    user: User,
     invitedStatus: InvitationStatus
-  };
-  eventChat: { // array of messages in the chat
+  }[];
+  eventChat?: { // array of messages in the chat
     author: string;
     message: string;
     timestamp: Timestamp;

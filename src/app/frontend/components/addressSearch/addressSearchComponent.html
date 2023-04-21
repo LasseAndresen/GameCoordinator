@@ -17,7 +17,7 @@
                   [autoActiveFirstOption]="true"
                   [panelWidth]="300"
   (optionSelected)="onOptionSelected($event)">
-  <mat-option *ngFor="let game of options" [value]="game">
+  <mat-option *ngFor="let game of options" [value]="game.description">
     <div class="d-flex flex-row">
       <div class="align-self-center" style="height: 24px; width: 24px;">
         <i class="align-self-center fa-solid fa-location-dot"></i>

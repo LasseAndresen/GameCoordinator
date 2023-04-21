@@ -9,6 +9,7 @@ import { IDataBaseEntityFactory } from '../models/IDatabaseEntityFactory';
 import { GroupCache } from '../caches/GroupCache';
 import { GroupPost, GroupPostFactory } from '../models/GroupPost';
 import { Firestore, collection, collectionData, onSnapshot, collectionSnapshots, doc, docData, CollectionReference, DocumentData, addDoc, setDoc, deleteDoc, query, where, getDoc, QuerySnapshot, orderBy, limit, getDocs, updateDoc, FieldValue, arrayUnion } from '@angular/fire/firestore';
+import { Event, EventFactory } from '../models/Event';
 
 export type QueryObservable<T> = {
   observable: BehaviorSubject<T>;
@@ -282,6 +283,15 @@ export class FirestoreService {
   //#endregion
 
   //#region Events
+
+  public async addEvent(event: Event) {
+    this.validateUserIsAuthenticated();
+    const eventFactory = new EventFactory();
+    const toPost = eventFactory.toDbObject(event);
+    await addDoc(this.getCollectionReference('Events'), {
+      ...toPost,
+    });
+  }
 
   //#endregion Events
 
