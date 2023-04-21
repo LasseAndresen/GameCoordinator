@@ -1,12 +1,15 @@
 <div class="position-relative" style="width: 200px">
-  <input #searchInput
-        style="width: 100%"
-        type="text"
-        placeholder="Type to search"
-        autofocus
-        (input)="onSearchInputChange($event)"
-        matInput
-        [matAutocomplete]="auto">
+  <mat-form-field class="ml-2">
+    <mat-label>Address</mat-label>
+    <input #searchInput
+          style="width: 100%"
+          type="text"
+          placeholder="Type to search"
+          autofocus
+          (input)="onSearchInputChange($event)"
+          matInput
+          [matAutocomplete]="auto">
+  </mat-form-field>
   <i *ngIf="isLoading" class="position-absolute fas fa-spinner fa-spin" style="right: 5px; top: 5px"></i>
 </div>
 

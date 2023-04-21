@@ -7,15 +7,17 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators, } from "@angular/forms";
 import { AbstractFormControlFromFormPipe } from "./abstractFormControlFromFormPipe";
 import MapQuestClient from "../../../backend/services/MapQuestService";
-import GooglePlacesAPICaller from "../../../backend/services/GooglePlacesAPICaller";
+import GooglePlacesAPICaller, { LocationSuggestion } from "../../../backend/services/GooglePlacesAPICaller";
 import { AddressSearchComponent } from "../addressSearch/addressSearchComponent";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
     templateUrl: './createEventComponent.html',
     selector: 'create-event',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, AbstractFormControlFromFormPipe,
-        MatInputModule, MatDatepickerModule, MatNativeDateModule, AddressSearchComponent]
+        MatInputModule, MatDatepickerModule, MatNativeDateModule, AddressSearchComponent,
+        MatButtonModule]
 })
 export class CreateEventComponent{
   public InvitationStatus = InvitationStatus;
@@ -63,6 +65,10 @@ export class CreateEventComponent{
     });
     const places = await this._googlePlaces.search('Ørestads Bou');
     console.log('Got places! ', places);
+  }
+
+  onAddressUpdated(address: LocationSuggestion) {
+
   }
 
   addGamePollOption(): void {

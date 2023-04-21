@@ -39,18 +39,14 @@
         (click)="removeEndTime()">- End date and time</span>
   <br>
   <div formGroupName="location">
-    <label for="locationName">Location</label>
-    <input type="text" id="locationName" formControlName="name">
-    <address-search></address-search>
-
-    <label for="locationDescription">Location Description:</label>
-    <textarea id="locationDescription" formControlName="description"></textarea>
-
-    <label for="locationAddress">Location Address:</label>
-    <input type="text" id="locationAddress" formControlName="address">
+    <address-search (addressSelected)="onAddressUpdated($event)"></address-search>
+    <mat-form-field class="ml-2">
+      <mat-label>Location description</mat-label>
+      <textarea matInput id="locationDescription" formControlName="description"></textarea>
+    </mat-form-field>
   </div>
   <br>
-  <div formGroupName="gamesPoll">
+  <!--<div formGroupName="gamesPoll">
     <label for="gameOptions">Game Options:</label>
     <div formArrayName="options">
       <div *ngFor="let option of eventForm | abstractControlFromForm:'gamesPoll.options'; let i=index" class="option">
@@ -90,7 +86,7 @@
         <button type="button" (click)="removeChatMessage(i)">Remove</button>
       </div>
     </div>
-  </label>
+  </label>-->
   <br>
-  <button type="submit">Submit</button>
+  <button mat-raised-button type="submit">Submit</button>
 </form>

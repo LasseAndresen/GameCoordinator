@@ -4,12 +4,13 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { BehaviorSubject, Subscription } from "rxjs";
 import { debounceTime, skip } from "rxjs/operators";
 import GooglePlacesAPICaller, { LocationSuggestion } from "../../../backend/services/GooglePlacesAPICaller";
+import { MatInputModule } from "@angular/material/input";
 
 @Component({
   templateUrl: './addressSearchComponent.html',
   selector: 'address-search',
   standalone: true,
-  imports: [MatAutocompleteModule, CommonModule]
+  imports: [MatAutocompleteModule, CommonModule, MatInputModule]
 })
 export class AddressSearchComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
