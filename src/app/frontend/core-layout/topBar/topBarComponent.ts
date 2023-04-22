@@ -11,7 +11,7 @@ import { User } from '@angular/fire/auth';
 })
 export class TopBarComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
-  avatarImgSrc: string = 'assets/images/avatar.png';
+  avatarImgSrc: string = 'assets/images/DiceLogo.png';
   userName: string = '';
 
   public loggedIn = false;
