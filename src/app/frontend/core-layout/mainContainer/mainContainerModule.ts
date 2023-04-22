@@ -9,6 +9,7 @@ import { LayoutModule } from '../layout.module';
 import { UIModule } from '../../UI/ui.module';
 import { HomePageModule } from '../../pages/home/homePageModule';
 import { GroupPageModule } from '../../pages/group/groupPageModule';
+import { BrowsePageModule } from '../../pages/browse/browsePageModule';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { GroupPageModule } from '../../pages/group/groupPageModule';
         routing,
         UIModule,
         HomePageModule,
-        GroupPageModule
+        GroupPageModule,
+        BrowsePageModule
     ],
     declarations: [
         MainContainerComponent,
