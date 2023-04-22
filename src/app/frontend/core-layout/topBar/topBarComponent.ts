@@ -34,6 +34,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
     this.loggedIn = user != null;
   }
 
+  public onLogoClick() {
+
+  }
+
   public async onLoginClick() {
     await this._authService.signInWithGoogle();
 

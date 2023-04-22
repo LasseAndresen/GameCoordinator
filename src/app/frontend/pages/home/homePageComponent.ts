@@ -27,7 +27,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public groups: BehaviorSubject<CompactGroup[]>;
 
   constructor(private _firebaseService: FirestoreService,
-              private _applicationContext: ApplicationContext,
+              public applicationContext: ApplicationContext,
               private _addBoardGameToCollectionDialog: AddBoardGameToCollectionDialog,
               private _createGroupDialog: CreateGroupDialog,
               private _dashboardContext: DashboardContext,
@@ -37,11 +37,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.reload();
-    this._uiSubscriptions.push(this._applicationContext.requestAppReload.subscribe(() => this.reload()));
+    this._uiSubscriptions.push(this.applicationContext.requestAppReload.subscribe(() => this.reload()));
     this._uiSubscriptions.push(this._dashboardContext.reloadGroupOverview.subscribe(() => this.loadGroups()));
   }
 
   public async reload() {
+    if (!this.applicationContext.loggedInUser) {
+      return;
+    }
     const boardGamePromise = this.loadBoardGames();
     const groupPromise = this.loadGroups();
 

@@ -30,13 +30,17 @@ export class AuthService {
         console.log('Authenticated user ', this._user);
         this._observableUser.next(user);
         if (!this.appInitialized.value) {
-          const userFactory = new UserFactory();
-          getDoc(doc(this.afs, 'Users/' + user.uid)).then(snapshot => {
-            const user = userFactory.fromDbObject(snapshot);
-            this._applicationContext.loggedInUser = {guid: user.guid, name: user.name};
-          });
-
-          this.appInitialized.next(true);
+          if (!!user) {
+            const userFactory = new UserFactory();
+            getDoc(doc(this.afs, 'Users/' + user.uid)).then(snapshot => {
+              const user = userFactory.fromDbObject(snapshot);
+              this._applicationContext.loggedInUser = {guid: user.guid, name: user.name};
+              this.appInitialized.next(true);
+            });
+          } else {
+            this._applicationContext.loggedInUser = null;
+            this.appInitialized.next(true);
+          }
         } else {
           this._applicationContext.requestAppReload.next();
         }
