@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
 import { BrowsePageComponent } from './browsePageComponent';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator'
 
 @NgModule({
     declarations: [
@@ -12,6 +14,8 @@ import { BrowsePageComponent } from './browsePageComponent';
         CommonModule,
         UIModule,
         BoardgameDetailDialogModule,
+        MatTableModule,
+        MatPaginatorModule
     ]
 })
 export class BrowsePageModule { }
