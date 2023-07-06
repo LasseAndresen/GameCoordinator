@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BehaviorSubject, Subscription } from "rxjs";
 import { debounceTime, skip } from "rxjs/operators";
@@ -19,6 +19,9 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
 
   public options: LocationSuggestion[] = [];
   public isLoading = false;
+
+  @Input()
+  public width = '100%';
 
   @Output()
   public addressSelected = new EventEmitter<string>();

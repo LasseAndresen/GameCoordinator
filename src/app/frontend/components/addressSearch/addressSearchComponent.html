@@ -1,5 +1,5 @@
-<div class="position-relative" style="width: 200px">
-  <mat-form-field class="ml-2">
+<div class="position-relative" [ngStyle]="{'width': width}">
+  <mat-form-field style="width: 100%">
     <mat-label>Address</mat-label>
     <input #searchInput
           style="width: 100%"
@@ -15,7 +15,7 @@
 
 <mat-autocomplete #auto="matAutocomplete"
                   [autoActiveFirstOption]="true"
-                  [panelWidth]="300"
+                  [panelWidth]="width"
   (optionSelected)="onOptionSelected($event)">
   <mat-option *ngFor="let game of options" [value]="game.description">
     <div class="d-flex flex-row">

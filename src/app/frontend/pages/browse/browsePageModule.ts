@@ -5,6 +5,7 @@ import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialo
 import { BrowsePageComponent } from './browsePageComponent';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { MatPaginatorModule } from '@angular/material/paginator'
         UIModule,
         BoardgameDetailDialogModule,
         MatTableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatInputModule,
     ]
 })
 export class BrowsePageModule { }

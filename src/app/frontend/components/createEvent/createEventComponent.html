@@ -1,15 +1,10 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-  <mat-form-field>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" style="width: 40vw">
+  <mat-form-field style="width: 100%">
     <mat-label>Event name</mat-label>
     <input matInput type="text" formControlName="title">
   </mat-form-field>
-  <br>
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-  </mat-form-field>
-  <br>
-  <div class="d-flex flex-row">
+
+  <div class="d-flex flex-row" style="width: 100%">
     <mat-form-field>
       <mat-label>Date</mat-label>
       <input matInput formControlName="startDate"  [matDatepicker]="startPicker">
@@ -21,9 +16,11 @@
       <input matInput type="time" formControlName="startTime">
     </mat-form-field>
   </div>
+
   <span *ngIf="!showEndtime" class="text-smalle mouse-hand" style="color: lightblue"
         (click)="showEndtime = true">+ End date and time</span>
-  <div *ngIf="showEndtime" class="d-flex flex-row">
+
+  <div *ngIf="showEndtime" class="d-flex flex-row" style="width: 100%">
     <mat-form-field>
       <mat-label>End date</mat-label>
       <input matInput formControlName="endDate" [matDatepicker]="endPicker">
@@ -35,12 +32,18 @@
       <input matInput type="time" formControlName="endTime">
     </mat-form-field>
   </div>
-  <span *ngIf="showEndtime" class="text-smalle mouse-hand" style="color: lightblue"
+
+  <span *ngIf="showEndtime" class="text-small mouse-hand" style="color: lightblue"
         (click)="removeEndTime()">- End date and time</span>
-  <br>
-  <div formGroupName="location">
-    <address-search (addressSelected)="onAddressUpdated($event)"></address-search>
-    <mat-form-field class="ml-2">
+
+  <mat-form-field class="mt-4" style="width: 100%">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div formGroupName="location" class="mt-4" style="width: 100%">
+    <address-search style="width: 100%" (addressSelected)="onAddressUpdated($event)"></address-search>
+    <mat-form-field style="width: 100%">
       <mat-label>Location description</mat-label>
       <textarea matInput id="locationDescription" formControlName="description"></textarea>
     </mat-form-field>

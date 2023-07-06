@@ -44,4 +44,8 @@ export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
     this._uiSubscriptions.forEach(s => s.unsubscribe());
     this._dbSubscriptions.forEach(s => s());
   }
+
+  protected applyFilter(event: KeyboardEvent) {
+
+  }
 }
