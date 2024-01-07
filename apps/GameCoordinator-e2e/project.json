@@ -1,0 +1,25 @@
+{
+  "name": "GameCoordinator-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/GameCoordinator-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "apps/GameCoordinator-e2e/protractor.conf.js"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "GameCoordinator:serve:production"
+        },
+        "development": {
+          "devServerTarget": "GameCoordinator:serve:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  },
+  "implicitDependencies": ["GameCoordinator"],
+  "tags": []
+}

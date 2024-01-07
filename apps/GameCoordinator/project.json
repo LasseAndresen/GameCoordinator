@@ -1,0 +1,131 @@
+{
+  "name": "GameCoordinator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    },
+    "@schematics/angular:application": {
+      "strict": true
+    }
+  },
+  "sourceRoot": "apps/GameCoordinator/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/apps/GameCoordinator",
+        "index": "apps/GameCoordinator/src/index.html",
+        "main": "apps/GameCoordinator/src/main.ts",
+        "polyfills": "apps/GameCoordinator/src/polyfills.ts",
+        "tsConfig": "apps/GameCoordinator/tsconfig.app.json",
+        "assets": [
+          "apps/GameCoordinator/src/favicon.ico",
+          "apps/GameCoordinator/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/purple-green.css",
+          "./node_modules/bootstrap/dist/css/bootstrap.css",
+          "./node_modules/@fortawesome/fontawesome-free/css/all.css",
+          "apps/GameCoordinator/src/app/frontEnd/_styles.scss",
+          "apps/GameCoordinator/src/styles.scss"
+        ],
+        "scripts": [
+          "./node_modules/jquery/dist/jquery.js",
+          "./node_modules/bootstrap/dist/js/bootstrap.js"
+        ],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/GameCoordinator/src/environments/environment.ts",
+              "with": "apps/GameCoordinator/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ]
+        },
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {},
+      "configurations": {
+        "production": {
+          "browserTarget": "GameCoordinator:build:production"
+        },
+        "development": {
+          "browserTarget": "GameCoordinator:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "GameCoordinator:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "apps/GameCoordinator/src/test.ts",
+        "polyfills": "apps/GameCoordinator/src/polyfills.ts",
+        "tsConfig": "apps/GameCoordinator/tsconfig.spec.json",
+        "karmaConfig": "apps/GameCoordinator/karma.conf.js",
+        "assets": [
+          "apps/GameCoordinator/src/favicon.ico",
+          "apps/GameCoordinator/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/purple-green.css",
+          "apps/GameCoordinator/src/styles.scss"
+        ],
+        "scripts": []
+      }
+    },
+    "lint": {
+      "executor": "@angular-devkit/build-angular:tslint",
+      "options": {
+        "tsConfig": [
+          "tsconfig.app.json",
+          "tsconfig.spec.json",
+          "e2e/tsconfig.json"
+        ],
+        "exclude": ["**/node_modules/**"]
+      }
+    },
+    "deploy": {
+      "executor": "@angular/fire:deploy",
+      "options": {}
+    }
+  }
+}

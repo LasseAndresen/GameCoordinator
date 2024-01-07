@@ -1,0 +1,80 @@
+<dialog-window [height]="600" [width]="800">
+  <div style="display: flex; flex-direction: column; height: 100%; width: 100%">
+    <div style="height: 50px; width: 100%">
+      <h4 style="padding: 5px; margin-left: 10px">
+        {{'Add games to collection'}}
+      </h4>
+      <div style="height: 1px; width: 100%; background-color: gray"></div>
+    </div>
+    <div
+      class="p-2"
+      style="
+        width: 100%;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+      "
+    >
+      <boardgame-search
+        (boardgameSelected)="onBoardgameSelectedFromSearch($event)"
+      >
+      </boardgame-search>
+      <!-- <div *ngFor="let game of (boardGameLibrary | async)" class="d-flex flex-row expand-horizontal mouse-hand" style="display: flex; height: 40px;" (click)="onBoardGameClicked(game)">
+              <span class="align-self-center" style="height: 100%; padding-top: 10px; padding-bottom: 10px">{{game.name}}</span>
+              <span *ngIf="ownedBoardGameGuids.includes(game.guid)" class="ml-2 align-self-center">{{'(owned)'}}</span>
+          </div> -->
+    </div>
+    <div
+      class="p-2"
+      style="
+        width: 100%;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+      "
+    >
+      <div style="height: 1px; width: 100%; background-color: gray"></div>
+      <h5 style="padding: 5px; margin-left: 10px">{{'Selected games'}}</h5>
+      <div
+        *ngFor="let game of selectedBoardGames"
+        class="d-flex flex-row expand-horizontal mouse-hand"
+        style="height: 40px"
+        (click)="onSelectedBoardGameClicked(game)"
+      >
+        <span style="height: 100%; padding-top: 10px; padding-bottom: 10px"
+          >{{game.name}}</span
+        >
+      </div>
+    </div>
+    <div style="height: 1px; width: 100%; background-color: gray"></div>
+    <div
+      class="mt-auto"
+      style="height: 50px; width: 100%; display: flex; flex-direction: column"
+    >
+      <div style="width: 100%; display: flex; flex-direction: row">
+        <gc-button
+          style="align-self: center; margin: 5px"
+          [text]="'Add new'"
+          (onClick)="onAddToLibraryClick()"
+        ></gc-button>
+        <div
+          class="ml-auto"
+          style="display: flex; flex-direction: row; justify-content: flex-end"
+        >
+          <gc-button
+            [text]="'Confirm'"
+            style="margin: 5px"
+            (onClick)="onConfirmClick()"
+          ></gc-button>
+          <gc-button
+            [text]="'Cancel'"
+            style="margin: 5px"
+            (onClick)="onCancelClick()"
+          ></gc-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog-window>

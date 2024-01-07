@@ -1,0 +1,38 @@
+<div class="position-relative" [ngStyle]="{'width': width}">
+  <mat-form-field style="width: 100%">
+    <mat-label>Address</mat-label>
+    <input
+      #searchInput
+      style="width: 100%"
+      type="text"
+      placeholder="Type to search"
+      autofocus
+      (input)="onSearchInputChange($event)"
+      matInput
+      [matAutocomplete]="auto"
+    />
+  </mat-form-field>
+  <i
+    *ngIf="isLoading"
+    class="position-absolute fas fa-spinner fa-spin"
+    style="right: 5px; top: 5px"
+  ></i>
+</div>
+
+<mat-autocomplete
+  #auto="matAutocomplete"
+  [autoActiveFirstOption]="true"
+  [panelWidth]="width"
+  (optionSelected)="onOptionSelected($event)"
+>
+  <mat-option *ngFor="let game of options" [value]="game.description">
+    <div class="d-flex flex-row">
+      <div class="align-self-center" style="height: 24px; width: 24px">
+        <i class="align-self-center fa-solid fa-location-dot"></i>
+      </div>
+      <span class="ml-2 text-small flex-grow-1 text-ellipsis"
+        >{{game.description}}</span
+      >
+    </div>
+  </mat-option>
+</mat-autocomplete>

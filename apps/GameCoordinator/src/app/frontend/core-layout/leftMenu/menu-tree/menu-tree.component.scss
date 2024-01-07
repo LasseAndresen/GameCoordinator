@@ -1,0 +1,18 @@
+@import '../../../styles/conf.scss';
+
+a:hover {
+  background-color: $secondary;
+}
+
+.active {
+  background-color: $highlight-color;
+}
+
+.text {
+  color: $sidebar-fonts-color;
+  font-size: 1rem;
+}
+
+.icon {
+  color: $fonts-color;
+}

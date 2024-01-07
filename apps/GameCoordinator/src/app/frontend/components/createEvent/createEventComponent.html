@@ -1,0 +1,122 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" style="width: 40vw">
+  <mat-form-field style="width: 100%">
+    <mat-label>Event name</mat-label>
+    <input matInput type="text" formControlName="title" />
+  </mat-form-field>
+
+  <div class="d-flex flex-row" style="width: 100%">
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        formControlName="startDate"
+        [matDatepicker]="startPicker"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="startPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="ml-2">
+      <mat-label>Start time</mat-label>
+      <input matInput type="time" formControlName="startTime" />
+    </mat-form-field>
+  </div>
+
+  <span
+    *ngIf="!showEndtime"
+    class="text-smalle mouse-hand"
+    style="color: lightblue"
+    (click)="showEndtime = true"
+    >+ End date and time</span
+  >
+
+  <div *ngIf="showEndtime" class="d-flex flex-row" style="width: 100%">
+    <mat-form-field>
+      <mat-label>End date</mat-label>
+      <input matInput formControlName="endDate" [matDatepicker]="endPicker" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="endPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="ml-2">
+      <mat-label>End time</mat-label>
+      <input matInput type="time" formControlName="endTime" />
+    </mat-form-field>
+  </div>
+
+  <span
+    *ngIf="showEndtime"
+    class="text-small mouse-hand"
+    style="color: lightblue"
+    (click)="removeEndTime()"
+    >- End date and time</span
+  >
+
+  <mat-form-field class="mt-4" style="width: 100%">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <div formGroupName="location" class="mt-4" style="width: 100%">
+    <address-search
+      style="width: 100%"
+      (addressSelected)="onAddressUpdated($event)"
+    ></address-search>
+    <mat-form-field style="width: 100%">
+      <mat-label>Location description</mat-label>
+      <textarea
+        matInput
+        id="locationDescription"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <br />
+  <!--<div formGroupName="gamesPoll">
+    <label for="gameOptions">Game Options:</label>
+    <div formArrayName="options">
+      <div *ngFor="let option of eventForm | abstractControlFromForm:'gamesPoll.options'; let i=index" class="option">
+        <input type="text" [formControlName]="i">
+        <button (click)="removeGamePollOption(i)" class="remove-option">-</button>
+      </div>
+      <button (click)="addGamePollOption()" class="add-option">Add Option</button>
+    </div>
+  </div>
+  <br>
+  <div formArrayName="participants">
+    <div *ngFor="let participant of eventForm | abstractControlFromForm:'participants'; let i=index" [formGroupName]="i">
+      <label>Participant {{i + 1}}</label>
+      <div formArrayName="user">
+        <input type="text" formControlName="firstName" placeholder="First Name">
+        <input type="text" formControlName="lastName" placeholder="Last Name">
+      </div>
+      <select formControlName="invitedStatus">
+        <option value="invited">Invited</option>
+        <option value="accepted">Accepted</option>
+        <option value="tentative">Tentative</option>
+        <option value="declined">Declined</option>
+      </select>
+      <button (click)="removeParticipant(i)" class="remove-participant">Remove Participant</button>
+    </div>
+    <button (click)="addParticipant()" class="add-participant">Add Participant</button>
+  </div>
+  <br>
+  <label>
+    Event chat:
+    <button type="button" (click)="addChatMessage()">Add message</button>
+    <div formArrayName="eventChat">
+      <div *ngFor="let message of eventForm | abstractControlFromForm:'eventChat'; let i = index;">
+        <input type="text" [formControlName]="'author'" placeholder="Author">
+        <input type="text" [formControlName]="'message'" placeholder="Message">
+        <input type="datetime-local" [formControlName]="'timestamp' + i" placeholder="Timestamp">
+        <button type="button" (click)="removeChatMessage(i)">Remove</button>
+      </div>
+    </div>
+  </label>-->
+  <br />
+  <button mat-raised-button type="submit">Submit</button>
+</form>
