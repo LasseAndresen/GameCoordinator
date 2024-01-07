@@ -1,4 +1,4 @@
-import { Injectable, Type, Injector, ReflectiveInjector, ComponentRef, ComponentFactoryResolver, RendererFactory2, ValueProvider } from "@angular/core";
+import { Injectable, Type, Injector, ComponentRef, ComponentFactoryResolver, RendererFactory2, ValueProvider } from "@angular/core";
 import { ApplicationContext } from "./applicationContext";
 
 @Injectable()
@@ -11,9 +11,9 @@ export class DialogService {
     }
 
     public showDialog<T>(component: Type<T>, providers: ValueProvider[]) {
-        const injector: Injector = ReflectiveInjector.resolveAndCreate([
+        const injector: Injector = Injector.create({providers: [
           ...providers
-        ]);
+        ]});
         const factory = this._cfr.resolveComponentFactory(component);
         const cr: ComponentRef<T> = this._applicationContext.appMainContainer.createComponent(factory, 0, injector);
         const renderer = this._rendererFactory.createRenderer(cr.location.nativeElement, null);

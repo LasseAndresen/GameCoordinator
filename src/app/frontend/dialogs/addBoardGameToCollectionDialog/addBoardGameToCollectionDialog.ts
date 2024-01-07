@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver, ViewContainerRef, Injector, ReflectiveInjector, ComponentRef } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { ApplicationContext } from "../../services/applicationContext";
 import { DialogService } from "../../services/dialogService";
 import { AddBoardGameToCollectionDialogComponent } from "./addBoardGameToCollectionDialogComponent";
