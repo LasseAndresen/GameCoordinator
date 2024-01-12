@@ -1,5 +1,5 @@
-<div class="card animated fadeIn">
-  <div class="card-header" *ngIf="cardTitle">
+<div class="card animated fadeIn" [ngClass]="{'card-hover mouse-hand': clickable}" (click)="onCardClicked()">
+  <div class="card-header" [ngClass]="{'justify-content-center': centerTitle}" *ngIf="cardTitle">
     <h4 *ngIf="!smallTitle" class="card-title">{{ cardTitle }}</h4>
     <span *ngIf="smallTitle" class="card-title-small">{{ cardTitle }}</span>
     <div class="btn-group" *ngIf="cardTitle && isCollapse">
@@ -7,21 +7,21 @@
         <i
           class="fa fa-minus fa-fw"
           [ngClass]="{
-            'collapse-on': collapse === 'on',
-            'collapse-off': collapse === 'off'
+            'collapse-on': _collapsed === 'on',
+            'collapse-off': _collapsed === 'off'
           }"
         ></i>
         <i
           class="fa fa-plus fa-fw"
           [ngClass]="{
-            'collapse-on': collapse === 'off',
-            'collapse-off': collapse === 'on'
+            'collapse-on': _collapsed === 'off',
+            'collapse-off': _collapsed === 'on'
           }"
         ></i>
       </button>
     </div>
   </div>
-  <div class="content-wrap" [@collapse]="collapse">
+  <div class="content-wrap" [@collapse]="_collapsed">
     <div class="card-content">
       <ng-content></ng-content>
     </div>

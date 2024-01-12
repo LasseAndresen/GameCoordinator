@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { collapse } from '../../../styles/animations/collapse-animate';
 
 @Component({
@@ -8,12 +8,30 @@ import { collapse } from '../../../styles/animations/collapse-animate';
   animations: [collapse],
 })
 export class CardComponent {
-  @Input() cardTitle: any;
-  @Input() isCollapse: boolean = false;
-  @Input() smallTitle = false;
-  collapse: string = 'on';
+  protected _collapsed: string = 'on';
+
+  @Input()
+  public cardTitle: any;
+  @Input()
+  public isCollapse: boolean = false;
+  @Input()
+  public smallTitle = false;
+  @Input()
+  public centerTitle = false;
+  @Input()
+  public clickable = false;
+
+  @Output()
+  public onClick: EventEmitter<void> = new EventEmitter<void>();
 
   public collapseCard() {
-    this.collapse === 'on' ? (this.collapse = 'off') : (this.collapse = 'on');
+    this._collapsed === 'on' ? (this._collapsed = 'off') : (this._collapsed = 'on');
+  }
+
+  public onCardClicked() {
+    if (!this.clickable) {
+      return;
+    }
+    this.onClick.emit();
   }
 }

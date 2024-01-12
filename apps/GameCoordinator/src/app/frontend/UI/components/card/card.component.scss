@@ -1,7 +1,20 @@
 @import '../../../styles/conf';
 
 .card {
-  background-color: $secondary;
+  background-color: $card-bg;
+  border-color: $card-border;
+  border-radius: 20px;
+  border-width: 1px;
+  overflow: hidden;
+  margin: 8px;
+}
+
+.card-hover {
+  transition: transform 0.25s ease;
+
+  &:hover {
+    transform: translate(5px, -5px);
+  }
 }
 
 .card-header {
@@ -10,6 +23,7 @@
   padding: 0 10px;
   display: flex;
   justify-content: space-between; //border-bottom: 1px solid $border-color;
+  background-color: $card-header-bg;
   .card-title {
     display: inline-block;
     margin: 0;
@@ -17,6 +31,7 @@
     font-size: $default-text + 1;
     font-weight: 700;
     text-transform: uppercase;
+    align-self: center;
   }
   .card-title-small {
     display: inline-block;
@@ -25,6 +40,7 @@
     font-size: $default-text + 1;
     font-weight: 700;
     text-transform: uppercase;
+    align-self: center;
   }
 }
 
