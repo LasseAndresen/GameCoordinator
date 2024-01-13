@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 
 @Component({
-  selector: 'gc-button',
+  selector: 'la-button',
   templateUrl: './buttonComponent.html',
   styleUrls: ['./buttonComponent.scss'],
 })
@@ -14,6 +14,9 @@ export class ButtonComponent implements OnInit {
 
   @Output()
   public onClick: EventEmitter<void> = new EventEmitter<void>();
+
+  @HostBinding('class')
+  public class = 'd-flex';
 
   constructor() {}
 

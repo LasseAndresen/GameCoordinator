@@ -1,13 +1,15 @@
+@import '../../../styles/conf';
+
 .button {
-  min-width: 80px;
   height: 30px;
+  padding: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-color: black;
-  border-radius: 10px;
+  border-radius: 15px;
   border-width: 1px;
   border-style: solid;
-  background-color: lightgray;
+  background-color: $secondary;
   cursor: pointer;
 }

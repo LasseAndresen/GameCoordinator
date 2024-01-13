@@ -40,16 +40,15 @@
       "
     >
       <div style="display: flex; flex-direction: row">
-        <gc-button
-          [text]="'Confirm'"
-          style="margin: 5px"
-          (onClick)="onConfirmClick()"
-        ></gc-button>
-        <gc-button
+        <la-button [text]="'Confirm'"
+                   style="margin: 5px"
+                   (onClick)="onConfirmClick()">
+        </la-button>
+        <la-button
           [text]="'Cancel'"
           style="margin: 5px"
           (onClick)="onCancelClick()"
-        ></gc-button>
+        ></la-button>
       </div>
     </div>
   </div>
