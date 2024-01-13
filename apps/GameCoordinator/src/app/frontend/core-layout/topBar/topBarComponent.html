@@ -19,10 +19,12 @@
         </div>
       </ng-container>
       <ng-container *ngIf="loggedIn">
-        <span class="user-name" title="{{userName}}">{{userName}}</span>
-        <button class="ml-2 px-1" mat-raised-button (click)="onLogoutClick()">
-          Log out
-        </button>
+        <div class="d-flex flex-row">
+          <span class="align-self-center">{{userName}}</span>
+          <la-button class="ml-2"
+                      [text]="'Log out'"
+                      (onClick)="onLogoutClick()"></la-button>
+        </div>
       </ng-container>
     </div>
   </div>

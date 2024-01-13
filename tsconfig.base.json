@@ -21,7 +21,9 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
-    "paths": {},
+    "paths": {
+      "@la-ui-lib": ["libs/la-ui-lib/src/index.ts"]
+    },
     "rootDir": "."
   },
   "angularCompilerOptions": {

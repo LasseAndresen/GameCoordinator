@@ -6,6 +6,8 @@ import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
 import { CreateEventComponent } from '../../components/createEvent/createEventComponent';
+import { CardComponent } from '../../../../../../../libs/la-ui-lib/src/lib/card/card.component';
+
 
 @NgModule({
   declarations: [HomePageComponent],
@@ -16,6 +18,7 @@ import { CreateEventComponent } from '../../components/createEvent/createEventCo
     UIModule,
     BoardgameDetailDialogModule,
     CreateEventComponent,
+    CardComponent
   ],
 })
 export class HomePageModule {}

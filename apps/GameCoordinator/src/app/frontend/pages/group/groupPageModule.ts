@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { routing } from './groupPageRouting';
 import { AddBoardGameToCollectionDialogModule } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialogModule';
 import { CreateGroupDialogModule } from '../../dialogs/createGroup/createGroupDialogModule';
 import { GroupPageComponent } from './groupPageComponent';
@@ -8,6 +7,7 @@ import { AddGroupMembersDialogModule } from '../../dialogs/addGroupMembers/addGr
 import { UIModule } from '../../UI/ui.module';
 import { GameOwnersPipe } from './pipes/game-owners-pipe.pipe';
 import { AddGroupPostDialogModule } from '../../dialogs/addGroupPost/addGroupPostDialogModule';
+import { CardComponent } from '../../../../../../../libs/la-ui-lib/src';
 
 @NgModule({
   imports: [
@@ -17,6 +17,7 @@ import { AddGroupPostDialogModule } from '../../dialogs/addGroupPost/addGroupPos
     CreateGroupDialogModule,
     AddGroupMembersDialogModule,
     AddGroupPostDialogModule,
+    CardComponent
   ],
   declarations: [GroupPageComponent, GameOwnersPipe],
 })

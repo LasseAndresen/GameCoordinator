@@ -1,17 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { collapse } from '../../../styles/animations/collapse-animate';
 
 @Component({
   selector: 'card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
-  animations: [collapse],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class CardComponent {
-  protected _collapsed: string = 'on';
-
   @Input()
-  public cardTitle: any;
+  public cardTitle: string;
   @Input()
   public isCollapse: boolean = false;
   @Input()
@@ -23,10 +22,6 @@ export class CardComponent {
 
   @Output()
   public onClick: EventEmitter<void> = new EventEmitter<void>();
-
-  public collapseCard() {
-    this._collapsed === 'on' ? (this._collapsed = 'off') : (this._collapsed = 'on');
-  }
 
   public onCardClicked() {
     if (!this.clickable) {

@@ -1,8 +1,6 @@
-@import '../../../styles/conf';
-
 .card {
-  background-color: $card-bg;
-  border-color: $card-border;
+  background-color: #233034;
+  border-color: #3c4346;
   border-radius: 20px;
   border-width: 1px;
   overflow: hidden;
@@ -23,7 +21,7 @@
   padding: 0 10px;
   display: flex;
   justify-content: space-between; //border-bottom: 1px solid $border-color;
-  background-color: $card-header-bg;
+  background-color: #0b2a34;
   .card-title {
     display: inline-block;
     margin: 0;
@@ -44,33 +42,6 @@
   }
 }
 
-.collapse-btn {
-  position: relative;
-  right: 0;
-  top: 5px;
-  background: transparent;
-  outline: none;
-  border: none;
-  @include center(30px, 30px);
-  font-size: $lg-text;
-  color: rgba($fonts-color, 0.5);
-  letter-spacing: -$lg-text;
-  &:hover {
-    color: $primary;
-  }
-}
-
-.collapse-off {
-  @include transition(all 0.5s);
-  @include transform(scale(0));
-  width: 0;
-}
-
-.collapse-on {
-  @include transition(all 0.5s);
-  @include transform(scale(1));
-}
-
 .content-wrap {
   height: auto;
   overflow: hidden;
@@ -80,14 +51,4 @@
   padding: 10px;
   height: auto;
   overflow-x: hidden;
-}
-
-.card-footer {
-  width: 100%;
-  height: auto;
-  min-height: 45px;
-  line-height: 45px;
-  border: none;
-  border-top: 1px solid $border-color;
-  padding: 0 10px;
 }
