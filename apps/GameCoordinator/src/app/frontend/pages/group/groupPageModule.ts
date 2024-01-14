@@ -7,7 +7,7 @@ import { AddGroupMembersDialogModule } from '../../dialogs/addGroupMembers/addGr
 import { UIModule } from '../../UI/ui.module';
 import { GameOwnersPipe } from './pipes/game-owners-pipe.pipe';
 import { AddGroupPostDialogModule } from '../../dialogs/addGroupPost/addGroupPostDialogModule';
-import { CardComponent } from '../../../../../../../libs/la-ui-lib/src';
+import { CardComponent } from '../../../../../../../libs/la-ui/src';
 
 @NgModule({
   imports: [

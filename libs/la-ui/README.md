@@ -1,7 +1,7 @@
-# la-ui-lib
+# la-ui
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test la-ui-lib` to execute the unit tests.
+Run `nx test la-ui` to execute the unit tests.

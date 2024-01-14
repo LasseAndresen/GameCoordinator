@@ -1,5 +1,13 @@
-<div class="card animated fadeIn" [ngClass]="{'card-hover mouse-hand': clickable}" (click)="onCardClicked()">
-  <div class="card-header" [ngClass]="{'justify-content-center': centerTitle}" *ngIf="cardTitle">
+<div
+  class="card animated fadeIn"
+  [ngClass]="{ 'card-hover mouse-hand': clickable }"
+  (click)="onCardClicked()"
+>
+  <div
+    class="card-header"
+    [ngClass]="{ 'justify-content-center': centerTitle }"
+    *ngIf="cardTitle"
+  >
     <h4 *ngIf="!smallTitle" class="card-title">{{ cardTitle }}</h4>
     <span *ngIf="smallTitle" class="card-title-small">{{ cardTitle }}</span>
   </div>

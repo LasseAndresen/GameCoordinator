@@ -6,7 +6,7 @@ import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
 import { CreateEventComponent } from '../../components/createEvent/createEventComponent';
-import { CardComponent } from '../../../../../../../libs/la-ui-lib/src/lib/card/card.component';
+import { CardComponent } from '../../../../../../../libs/la-ui/src';
 
 
 @NgModule({
