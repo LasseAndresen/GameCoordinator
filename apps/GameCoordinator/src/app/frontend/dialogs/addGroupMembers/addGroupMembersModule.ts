@@ -5,9 +5,10 @@ import { AddGroupMembersDialogComponent } from './addGroupMembersComponent';
 import { AddGroupMembersDialog } from './addGroupMembersDialog';
 import { UIModule } from '../../UI/ui.module';
 import { DialogModule } from '../../UI/dialogComponent/dialogModule';
+import { ButtonComponent } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, FormsModule],
+  imports: [CommonModule, DialogModule, UIModule, FormsModule, ButtonComponent],
   providers: [AddGroupMembersDialog],
   declarations: [AddGroupMembersDialogComponent],
 })

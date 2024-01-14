@@ -6,9 +6,10 @@ import { TopBarComponent } from './topBar/topBarComponent';
 import { MenuTreeComponent } from './leftMenu/menu-tree/menu-tree.component';
 import { UIModule } from '../UI/ui.module';
 import { DialogModule } from '../UI/dialogComponent/dialogModule';
+import { ButtonComponent } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UIModule, DialogModule],
+  imports: [CommonModule, RouterModule, UIModule, DialogModule, ButtonComponent],
   providers: [],
   declarations: [MenuComponent, TopBarComponent, MenuTreeComponent],
   exports: [MenuComponent, TopBarComponent],

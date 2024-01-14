@@ -6,7 +6,7 @@ import { HomePageComponent } from './homePageComponent';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailDialogModule } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialogModule';
 import { CreateEventComponent } from '../../components/createEvent/createEventComponent';
-import { CardComponent } from '../../../../../../../libs/la-ui/src';
+import { CardComponent, ButtonComponent } from '@la-ui';
 
 
 @NgModule({
@@ -18,7 +18,8 @@ import { CardComponent } from '../../../../../../../libs/la-ui/src';
     UIModule,
     BoardgameDetailDialogModule,
     CreateEventComponent,
-    CardComponent
+    CardComponent,
+    ButtonComponent
   ],
 })
 export class HomePageModule {}

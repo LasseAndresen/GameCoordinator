@@ -6,6 +6,7 @@ import { AddBoardGameToLibraryDialogModule } from '../addBoardGameToLibrary/addB
 import { DialogModule } from '../../UI/dialogComponent/dialogModule';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameSearchComponent } from '../../components/boardgameSearch/boardgameSearchComponent';
+import { ButtonComponent } from '@la-ui';
 
 @NgModule({
   providers: [AddBoardGameToCollectionDialog],
@@ -16,6 +17,7 @@ import { BoardgameSearchComponent } from '../../components/boardgameSearch/board
     AddBoardGameToLibraryDialogModule,
     UIModule,
     BoardgameSearchComponent,
+    ButtonComponent
   ],
 })
 export class AddBoardGameToCollectionDialogModule {}

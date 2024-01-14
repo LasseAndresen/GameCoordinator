@@ -5,9 +5,10 @@ import { UIModule } from '../../UI/ui.module';
 import { DialogModule } from '../../UI/dialogComponent/dialogModule';
 import { AddGroupPostDialogComponent } from './addGroupPostDialogComponent';
 import { AddGroupPostDialog } from './addGroupPostDialog';
+import { ButtonComponent } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, FormsModule],
+  imports: [CommonModule, DialogModule, UIModule, FormsModule, ButtonComponent],
   providers: [AddGroupPostDialog],
   declarations: [AddGroupPostDialogComponent],
 })
