@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DialogService } from '../../services/dialogService';
+import { DialogService } from '@services';
 import { CreateGroupDialogComponent } from './createGroupDialogComponent';
 
 @Injectable()

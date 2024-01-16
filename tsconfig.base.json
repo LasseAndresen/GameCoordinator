@@ -22,7 +22,8 @@
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
     "paths": {
-      "@la-ui": ["libs/la-ui/src/index.ts"]
+      "@la-ui": ["libs/la-ui/src/index.ts"],
+      "@services": ["libs/services/src/index.ts"]
     },
     "rootDir": "."
   },

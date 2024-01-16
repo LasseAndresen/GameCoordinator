@@ -5,11 +5,10 @@ import { MenuComponent } from './leftMenu/menuComponent';
 import { TopBarComponent } from './topBar/topBarComponent';
 import { MenuTreeComponent } from './leftMenu/menu-tree/menu-tree.component';
 import { UIModule } from '../UI/ui.module';
-import { DialogModule } from '../UI/dialogComponent/dialogModule';
-import { ButtonComponent } from '@la-ui';
+import { ButtonComponent, DialogModule } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UIModule, DialogModule, ButtonComponent],
+  imports: [CommonModule, RouterModule, UIModule, ButtonComponent, DialogModule],
   providers: [],
   declarations: [MenuComponent, TopBarComponent, MenuTreeComponent],
   exports: [MenuComponent, TopBarComponent],

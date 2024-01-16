@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { BoardGame } from '../../../backend/models/BoardGame';
 import { CompactGroup } from '../../../backend/models/Group';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { ApplicationContext } from '../../services/applicationContext';
+import { ApplicationContext } from '@services';
 import { BoardGameGeekApiCaller } from '../../../backend/services/boardGameGeekApiCaller';
 import { BoardgameDetailComponent } from '../../components/boardgameDetail/boardgameDetailComponent';
 import { BoardgameDetailDialog } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialog';

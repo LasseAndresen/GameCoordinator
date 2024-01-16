@@ -2,13 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UIModule } from '../../UI/ui.module';
-import { DialogModule } from '../../UI/dialogComponent/dialogModule';
 import { AddGroupPostDialogComponent } from './addGroupPostDialogComponent';
 import { AddGroupPostDialog } from './addGroupPostDialog';
-import { ButtonComponent } from '@la-ui';
+import { ButtonComponent, DialogModule } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, FormsModule, ButtonComponent],
+  imports: [CommonModule,
+    UIModule,
+    FormsModule,
+    ButtonComponent,
+    DialogModule
+  ],
   providers: [AddGroupPostDialog],
   declarations: [AddGroupPostDialogComponent],
 })

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GroupPost } from '../../../backend/models/GroupPost';
-import { DialogService } from '../../services/dialogService';
+import { DialogService } from '@services';
 import { AddGroupPostDialogArgs } from './addGroupPostDialogArgs';
 import { AddGroupPostDialogComponent } from './addGroupPostDialogComponent';
 

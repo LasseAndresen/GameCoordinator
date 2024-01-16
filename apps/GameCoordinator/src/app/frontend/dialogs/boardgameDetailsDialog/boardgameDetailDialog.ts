@@ -1,5 +1,5 @@
 import { Injectable, ComponentFactoryResolver } from '@angular/core';
-import { DialogService } from '../../services/dialogService';
+import { DialogService } from '@services';
 import { BoardgameDetailDialogComponent } from './boardgameDetailDialogComponent';
 import { BggThingDto } from 'boardgamegeekclient/dist/esm/dto';
 import { BoardgameDetailsDialogArgs } from './boardgameDetailsDialogArgs';

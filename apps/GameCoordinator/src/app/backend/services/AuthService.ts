@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicationContext } from '../../frontend/services/applicationContext';
+import { ApplicationContext } from '@services';
 import { UserFactory } from '../models/User';
 import {
   Auth,

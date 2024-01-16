@@ -4,12 +4,13 @@ import {
   OnInit,
   ViewChild,
   Optional,
+  Inject,
 } from '@angular/core';
 import { Group } from '../../../backend/models/Group';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { DashboardContext } from '../../pages/contexts/dashboardContext';
-import { DialogHandle } from '../../UI/dialogComponent/dialogHandle';
 import { EventUtilities, KeyCodeEnum } from '../../utilities/EventUtilities';
+import { DialogHandle } from '@la-ui';
 
 @Component({
   templateUrl: './createGroupDialogComponent.html',

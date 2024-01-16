@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DialogHandle } from './dialogHandle';
 import { Subscription } from 'rxjs';
-import { ApplicationContext } from '../../services/applicationContext';
-import { DialogService } from '../../services/dialogService';
+import { DialogService } from '@services';
 
 @Component({
-  selector: 'dialog-window',
+  selector: 'la-dialog',
   templateUrl: './dialogComponent.html',
   styleUrls: ['./dialogComponent.scss'],
 })
@@ -22,7 +21,6 @@ export class DialogComponent implements OnInit, OnDestroy {
   public title: string;
 
   constructor(
-    public applicationContext: ApplicationContext,
     private _dialogService: DialogService,
     private _dialogHandle: DialogHandle
   ) {}

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationContext } from '../../services/applicationContext';
-import { DialogService } from '../../services/dialogService';
+import { DialogService } from '@services';
 import { AddBoardGameToCollectionDialogComponent } from './addBoardGameToCollectionDialogComponent';
 @Injectable()
 export class AddBoardGameToCollectionDialog {

@@ -6,7 +6,7 @@ import {
   FirestoreService,
   QueryObservable,
 } from '../../../backend/services/FirestoreService';
-import { DialogHandle } from '../../UI/dialogComponent/dialogHandle';
+import { DialogHandle } from '@la-ui';
 import { BggThingDto } from 'boardgamegeekclient/dist/esm/dto';
 
 @Component({

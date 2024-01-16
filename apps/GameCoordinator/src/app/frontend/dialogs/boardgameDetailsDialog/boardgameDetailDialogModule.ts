@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DialogModule } from '../../UI/dialogComponent/dialogModule';
 import { UIModule } from '../../UI/ui.module';
 import { BoardgameDetailComponent } from '../../components/boardgameDetail/boardgameDetailComponent';
 import { BoardgameDetailDialog } from './boardgameDetailDialog';
 import { BoardgameDetailDialogComponent } from './boardgameDetailDialogComponent';
+import { DialogModule } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, BoardgameDetailComponent],
+  imports: [CommonModule,
+    UIModule,
+    BoardgameDetailComponent,
+    DialogModule
+  ],
   providers: [BoardgameDetailDialog],
   declarations: [BoardgameDetailDialogComponent],
 })

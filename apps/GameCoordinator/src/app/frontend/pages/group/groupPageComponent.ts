@@ -5,7 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AddGroupMembersDialog } from '../../dialogs/addGroupMembers/addGroupMembersDialog';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { GroupPageView } from '../../../backend/views/groupPage';
-import { ApplicationContext } from '../../services/applicationContext';
+import { ApplicationContext } from '@services';
 import { filter } from 'rxjs/operators';
 import { BoardGame } from '../../../backend/models/BoardGame';
 import { User } from '../../../backend/models/User';

@@ -6,9 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../../backend/services/AuthService';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { ApplicationContext } from '../../services/applicationContext';
+import { ApplicationContext } from '@services';
 import { MenuItem } from './models/menuItem';
 
 @Component({

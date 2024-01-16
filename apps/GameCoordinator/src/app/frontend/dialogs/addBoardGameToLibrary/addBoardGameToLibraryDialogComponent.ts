@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BoardGame } from '../../../backend/models/BoardGame';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { DialogHandle } from '../../UI/dialogComponent/dialogHandle';
+import { DialogHandle } from '@la-ui';
 import { EventUtilities, KeyCodeEnum } from '../../utilities/EventUtilities';
 
 @Component({

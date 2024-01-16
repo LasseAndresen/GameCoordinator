@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { ApplicationContext } from '../../services/applicationContext';
+import { ApplicationContext } from '@services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 

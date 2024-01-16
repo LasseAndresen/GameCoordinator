@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ApplicationContext } from '../frontend/services/applicationContext';
+import { ApplicationContext } from '@services';
 import { AuthService } from './services/AuthService';
 import { FirestoreService } from './services/FirestoreService';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';

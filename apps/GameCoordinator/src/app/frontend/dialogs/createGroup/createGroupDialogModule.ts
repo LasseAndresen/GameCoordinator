@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { CreateGroupDialog } from './createGroupDialog';
 import { CreateGroupDialogComponent } from './createGroupDialogComponent';
 import { UIModule } from '../../UI/ui.module';
-import { DialogModule } from '../../UI/dialogComponent/dialogModule';
-import { ButtonComponent } from '@la-ui';
+import { ButtonComponent, DialogModule } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, FormsModule, ButtonComponent],
+  imports: [CommonModule,
+    UIModule,
+    FormsModule,
+    ButtonComponent,
+    DialogModule
+  ],
   providers: [CreateGroupDialog],
   declarations: [CreateGroupDialogComponent],
 })

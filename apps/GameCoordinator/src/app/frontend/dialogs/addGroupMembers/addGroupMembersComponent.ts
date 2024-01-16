@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 import { Group } from '../../../backend/models/Group';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { DashboardContext } from '../../pages/contexts/dashboardContext';
-import { DialogHandle } from '../../UI/dialogComponent/dialogHandle';
+import { DialogHandle } from '@la-ui';
 import { EventUtilities, KeyCodeEnum } from '../../utilities/EventUtilities';
 import { AddGroupMembersDialogArgs } from './addGroupMembersDialogArgs';
 

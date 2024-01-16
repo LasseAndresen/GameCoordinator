@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GroupPost } from '../../../backend/models/GroupPost';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
-import { ApplicationContext } from '../../services/applicationContext';
-import { DialogHandle } from '../../UI/dialogComponent/dialogHandle';
+import { ApplicationContext } from '@services';
+import { DialogHandle } from '@la-ui';
 import { AddGroupPostDialogArgs } from './addGroupPostDialogArgs';
 import { Timestamp } from '@angular/fire/firestore';
 

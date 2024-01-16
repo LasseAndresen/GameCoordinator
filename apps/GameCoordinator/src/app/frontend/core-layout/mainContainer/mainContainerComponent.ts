@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { filter, take } from 'rxjs/operators';
 import { AuthService } from '../../../backend/services/AuthService';
-import { ApplicationContext } from '../../services/applicationContext';
+import { ApplicationContext } from '@services';
 
 @Component({
   selector: 'app-pages',

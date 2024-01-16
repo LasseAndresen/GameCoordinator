@@ -4,11 +4,15 @@ import { AddBoardGameToLibraryDialog } from './addBoardGameToLibraryDialog';
 import { AddBoardGameToLibraryDialogComponent } from './addBoardGameToLibraryDialogComponent';
 import { FormsModule } from '@angular/forms';
 import { UIModule } from '../../UI/ui.module';
-import { DialogModule } from '../../UI/dialogComponent/dialogModule';
-import { ButtonComponent } from '@la-ui';
+import { ButtonComponent, DialogModule } from '@la-ui';
 
 @NgModule({
-  imports: [CommonModule, DialogModule, UIModule, FormsModule, ButtonComponent],
+  imports: [CommonModule,
+    UIModule,
+    FormsModule,
+    ButtonComponent,
+    DialogModule
+  ],
   providers: [AddBoardGameToLibraryDialog],
   declarations: [AddBoardGameToLibraryDialogComponent],
 })
