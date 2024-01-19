@@ -15,7 +15,10 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s"
+      "!{projectRoot}/test-setup.[jt]s",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
   "targetDefaults": {
@@ -52,6 +55,15 @@
           "codeCoverage": true
         }
       }
+    },
+    "build-storybook": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production",
+        "{projectRoot}/.storybook/**/*",
+        "{projectRoot}/tsconfig.storybook.json"
+      ]
     }
   },
   "nxCloudAccessToken": "ZTIxOWZkZjMtOGUwYi00YmJhLTljYzctMTkzY2VjOTA5NWI3fHJlYWQtd3JpdGU=",
@@ -68,6 +80,13 @@
     },
     "@nx/angular:component": {
       "style": "css"
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": ["build-storybook"]
+      }
     }
   }
 }
