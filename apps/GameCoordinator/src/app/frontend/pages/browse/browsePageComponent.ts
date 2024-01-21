@@ -10,11 +10,19 @@ import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { ApplicationContext } from '@services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'browse-page',
   templateUrl: './browsePageComponent.html',
   styleUrls: ['./browsePageComponent.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
   providers: [],
 })
 export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -59,4 +67,8 @@ export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected applyFilter(event: KeyboardEvent) {}
+
+  public test() {
+    console.log('Clicked');
+  }
 }
