@@ -1,4 +1,5 @@
 import weaviate, {WeaviateClient, ApiKey, ObjectsBatcher} from 'weaviate-ts-client';
+import {environment} from './environment';
 
 main();
 async function main(): Promise<void> {
@@ -6,7 +7,7 @@ async function main(): Promise<void> {
     host: 'http://localhost:8080/',
     apiKey: new ApiKey('learn-weaviate'),  // Replace w/ your Weaviate instance API key
     headers: {
-      'X-OpenAI-Api-Key': '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'
+      'X-OpenAI-Api-Key': environment.openAI
     }
   });
 
