@@ -5,13 +5,12 @@ main();
 async function main(): Promise<void> {
   const client: WeaviateClient = weaviate.client({
     host: 'http://localhost:8080/',
-    apiKey: new ApiKey('learn-weaviate'),  // Replace w/ your Weaviate instance API key
     headers: {
       'X-OpenAI-Api-Key': environment.openAI
     }
   });
 
-  await ensureClassCreated(client);
+  await forceUpdateClass(client);
   await insertMockData(client);
 }
 
@@ -35,7 +34,53 @@ async function createBoardGameClass(client: WeaviateClient): Promise<void> {
 function getBoardGameClass(): object {
   return {
     class: 'BoardGame',
-    vectorizer: 'text2vec-openai',  // If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
+    properties: [
+      {
+        dataType: ['int'],
+        name: 'thingID',
+      },
+      {
+        dataType: ['text'],
+        name: 'thumbnail',
+      },
+      {
+        dataType: ['text'],
+        name: 'image',
+      },
+      {
+        dataType: ['text'],
+        name: 'name',
+      },
+      {
+        dataType: ['int'],
+        name: 'minAge',
+      },
+      {
+        dataType: ['number'],
+        name: 'rating',
+      },
+      {
+        dataType: ['text'],
+        name: 'description',
+      },
+      {
+        dataType: ['int'],
+        name: 'yearPublished',
+      },
+      {
+        dataType: ['int'],
+        name: 'minPlayers',
+      },
+      {
+        dataType: ['int'],
+        name: 'maxPlayers',
+      },
+      {
+        dataType: ['number'],
+        name: 'weight',
+      },
+    ],
+    vectorizer: 'text2vec-openai',
     moduleConfig: {
       'text2vec-openai': {
         model: 'ada',
@@ -55,9 +100,11 @@ async function insertMockData(client: WeaviateClient): Promise<void> {
   const batchSize = 100;
 
   for (const item of data) {
+    const propertyList: {[p: string]: number | string} = {};
+    Object.keys(item).forEach((k: string) => propertyList[k] = item[k as keyof typeof item]);
     const obj = {
       class: 'BoardGame',
-      properties: item.properties
+      properties: propertyList
     };
 
     batcher = batcher.withObject(obj);
@@ -65,7 +112,7 @@ async function insertMockData(client: WeaviateClient): Promise<void> {
     if (counter++ === batchSize) {
       // flush the batch queue
       const res = await batcher.do();
-      console.log(res);
+      console.log(JSON.stringify(res, null, 2));
 
       // restart the batch queue
       counter = 0;
@@ -75,12 +122,44 @@ async function insertMockData(client: WeaviateClient): Promise<void> {
 
   // Flush the remaining objects
   const res = await batcher.do();
-  console.log(res);
+  console.log(JSON.stringify(res, null, 2));
 }
 
-function getMockData(): any {
+// async function validateData(client: WeaviateClient): Promise<void> {
+//   try {
+//     await client.data
+//       .validator()
+//       .withClassName('BoardGame')
+//       .withId('12345678-1234-1234-1234-123456789012')  // placeholder in UUID format (required)
+//       .withProperties({
+//         question: 'This vector DB is open-source and supports auto-schema',
+//         answer: 'Weaviate',
+//         thisPropShouldNotEndUpInTheSchema: -1,
+//       })
+//       .do();
+//   } catch (e) {
+//     // "invalid object: no such prop with name 'thisPropShouldNotEndUpInTheSchema' found..."
+//     console.error('Expecting error about thisPropShouldNotEndUpInTheSchema:', e.message);
+//   }
+// }
+
+interface MockData {
+  thingID: number;
+  thumbnail: string;
+  image: string;
+  name: string;
+  minAge: number;
+  rating: number;
+  description: string;
+  yearPublished: number;
+  minPlayers: number;
+  maxPlayers: number;
+  weight: number;
+}
+
+function getMockData(): MockData[] {
   return [{
-    ID: 266192,
+    thingID: 266192,
     thumbnail: 'https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__thumb/img/VNToqgS2-pOGU6MuvIkMPKn_y-s=/fit-in/200x150/filters:strip_icc()/pic4458123.jpg',
     image: 'https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__original/img/cI782Zis9cT66j2MjSHKJGnFPNw=/0x0/filters:format(jpeg)/pic4458123.jpg',
     name: 'Wingspan',
@@ -93,7 +172,7 @@ function getMockData(): any {
     weight: 2.4613,
   },
   {
-    ID: 169786,
+    thingID: 169786,
     thumbnail: 'https://cf.geekdo-images.com/7k_nOxpO9OGIjhLq2BUZdA__thumb/img/eQ69OEDdjYjfKg6q5Navee87skU=/fit-in/200x150/filters:strip_icc()/pic3163924.jpg',
     image: 'https://cf.geekdo-images.com/7k_nOxpO9OGIjhLq2BUZdA__original/img/HlDb9F365w0tSP8uD1vf1pfniQE=/0x0/filters:format(jpeg)/pic3163924.jpg',
     name: 'Scythe',
