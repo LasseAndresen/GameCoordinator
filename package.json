@@ -7,7 +7,9 @@
     "build": "nx build",
     "test": "nx test",
     "lint": "nx lint",
-    "e2e": "nx e2e"
+    "e2e": "nx e2e",
+    "startWeaviate": "docker-compose -f ./databases/BGG-weaviate/docker-compose.yml up -d",
+    "stopWeaviate": "docker-compose -f ./databases/BGG-weaviate/docker-compose.yml down"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +26,7 @@
     "@angular/router": "^16.2.12",
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@types/googlemaps": "^3.43.3",
+    "axios": "^1.0.0",
     "boardgamegeekclient": "^1.7.2",
     "bootstrap": "^4.6.0",
     "firebase": "^9.19.1",
@@ -33,6 +36,7 @@
     "roboto-fontface": "^0.10.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
+    "weaviate-ts-client": "^2.0.0",
     "zone.js": "~0.13.3"
   },
   "devDependencies": {
@@ -47,10 +51,12 @@
     "@angular/compiler-cli": "^16.2.12",
     "@angular/language-service": "^16.2.12",
     "@nx/angular": "17.2.8",
+    "@nx/esbuild": "17.2.8",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
     "@nx/jest": "17.2.8",
     "@nx/js": "17.2.8",
+    "@nx/node": "^17.2.8",
     "@nx/storybook": "^17.2.8",
     "@nx/web": "17.2.8",
     "@nx/workspace": "17.2.8",
@@ -70,6 +76,7 @@
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "codelyzer": "^6.0.0",
+    "esbuild": "^0.19.2",
     "eslint": "~8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "firebase-tools": "^12.9.0",
@@ -80,6 +87,7 @@
     "jasmine-spec-reporter": "~5.0.0",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
     "jest-preset-angular": "~13.1.0",
     "jsonc-eslint-parser": "^2.1.0",
     "karma": "~6.4.1",
@@ -92,7 +100,7 @@
     "prettier": "^2.6.2",
     "protractor": "~7.0.0",
     "ts-jest": "^29.1.0",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.1",
     "tslint": "~6.1.0",
     "typescript": "~5.1.6"
   }
