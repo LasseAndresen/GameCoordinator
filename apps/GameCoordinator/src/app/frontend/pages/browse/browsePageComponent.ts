@@ -11,6 +11,7 @@ import { ApplicationContext } from '@services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import {WeaviateService} from '../../../backend/services/WeaviateService';
 
 @Component({
   selector: 'browse-page',
@@ -28,20 +29,22 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private _uiSubscriptions: Subscription[] = [];
   private _dbSubscriptions: (() => void)[] = [];
-  showloading: boolean = false;
-  displayedColumns = ['name', 'description'];
+  public showloading = false;
+  public displayedColumns: string[] = [];
+
   public dataSource = new MatTableDataSource([
-    { name: 'test', description: 'This is a description' },
-    { name: 'test2', description: 'This is also a description' },
-    { name: 'test3', description: 'This is also a description' },
-    { name: 'test4', description: 'This is also a description' },
+    // { name: 'test', description: 'This is a description' },
+    // { name: 'test2', description: 'This is also a description' },
+    // { name: 'test3', description: 'This is also a description' },
+    // { name: 'test4', description: 'This is also a description' },>
   ]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private _firebaseService: FirestoreService,
-    public applicationContext: ApplicationContext
+    private _weaviateService: WeaviateService,
+    public applicationContext: ApplicationContext,
   ) {}
 
   async ngOnInit() {
@@ -49,10 +52,15 @@ export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
     this._uiSubscriptions.push(
       this.applicationContext.requestAppReload.subscribe(() => this.reload())
     );
+    const view = await this._weaviateService.getView();
+    console.log('View ', view);
+    this.dataSource = new MatTableDataSource(view.rows);
+    this.displayedColumns = view.columns;
+    this.dataSource.paginator = this.paginator;
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+
   }
 
   public async reload() {

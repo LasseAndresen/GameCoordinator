@@ -16,6 +16,7 @@ import {
 import { BoardGameGeekApiCaller } from './services/boardGameGeekApiCaller';
 import MapQuestClient from './services/MapQuestService';
 import GooglePlacesAPICaller from './services/GooglePlacesAPICaller';
+import {WeaviateService} from './services/WeaviateService';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import GooglePlacesAPICaller from './services/GooglePlacesAPICaller';
     MapQuestClient,
     GooglePlacesAPICaller,
     ApplicationContext,
+    WeaviateService
   ],
   exports: [],
 })

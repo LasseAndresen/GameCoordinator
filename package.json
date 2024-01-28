@@ -9,7 +9,8 @@
     "lint": "nx lint",
     "e2e": "nx e2e",
     "startWeaviate": "docker-compose -f ./databases/BGG-weaviate/docker-compose.yml up -d",
-    "stopWeaviate": "docker-compose -f ./databases/BGG-weaviate/docker-compose.yml down"
+    "stopWeaviate": "docker-compose -f ./databases/BGG-weaviate/docker-compose.yml down",
+    "indexWeaviate": "npx ts-node ./databases/BGG-weaviate/index-weaviate.ts"
   },
   "private": true,
   "dependencies": {
