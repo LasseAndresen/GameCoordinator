@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BggThingDto } from 'boardgamegeekclient/dist/esm/dto';
 import { BestPlayerCountPipe } from './bestPlayerCountPipe';
 import { GamePublisherPipe } from './gamePublisherPipe';
 import { DecimalPipe } from '@angular/common';
+import {ViewBoardGame} from '@gc-shared';
 
 @Component({
   templateUrl: './boardgameDetailComponent.html',
@@ -12,7 +12,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class BoardgameDetailComponent implements OnDestroy, OnInit {
   @Input()
-  public game: BggThingDto;
+  public game: ViewBoardGame;
 
   constructor() {}
 

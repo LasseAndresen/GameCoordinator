@@ -6,6 +6,7 @@ import { BrowsePageComponent } from './browsePageComponent';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import {BoardgameDetailComponent} from '../../components/boardgameDetail/boardgameDetailComponent';
 
 @NgModule({
   declarations: [BrowsePageComponent],
@@ -16,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
+    BoardgameDetailComponent
   ],
 })
 export class BrowsePageModule {}
