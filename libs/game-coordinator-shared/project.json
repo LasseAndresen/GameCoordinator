@@ -1,0 +1,23 @@
+{
+  "name": "game-coordinator-shared",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/game-coordinator-shared/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/game-coordinator-shared",
+        "main": "libs/game-coordinator-shared/src/index.ts",
+        "tsConfig": "libs/game-coordinator-shared/tsconfig.lib.json",
+        "assets": ["libs/game-coordinator-shared/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

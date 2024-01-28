@@ -23,7 +23,8 @@
     "useDefineForClassFields": false,
     "paths": {
       "@la-ui": ["libs/la-ui/src/index.ts"],
-      "@services": ["libs/services/src/index.ts"]
+      "@services": ["libs/services/src/index.ts"],
+      "@gc-shared": ["libs/game-coordinator-shared/src/index.ts"]
     },
     "rootDir": "."
   },

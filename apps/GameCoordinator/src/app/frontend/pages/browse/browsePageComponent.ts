@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {WeaviateService} from '../../../backend/services/WeaviateService';
+import {ViewBoardGame} from '@gc-shared';
 
 @Component({
   selector: 'browse-page',
@@ -54,7 +55,7 @@ export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     const view = await this._weaviateService.getView();
     console.log('View ', view);
-    this.dataSource = new MatTableDataSource(view.rows);
+    this.dataSource = new MatTableDataSource<ViewBoardGame>(view.rows);
     this.displayedColumns = view.columns;
     this.dataSource.paginator = this.paginator;
   }
