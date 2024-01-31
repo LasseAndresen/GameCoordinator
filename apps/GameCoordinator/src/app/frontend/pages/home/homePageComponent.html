@@ -37,7 +37,7 @@
   </div>
   <div class="col-md-6">
     <card [cardTitle]="'Groups'" [isCollapse]="true">
-      <div class="d-flex flex-column justify-content-between expand" style="width: 100%; height: 100%;">
+      <div class="d-flex flex-column justify-content-between expand">
         <div class="d-flex flex-wrap overflow-y-auto" style="max-height: 600px">
           <card *ngFor="let group of (groups | async)"
                 class="col-md-4 mb-2"
@@ -62,9 +62,13 @@
     </card>
   </div>
 
-  <div class="col-md-12">
-    <card [cardTitle]="'Event'" [isCollapse]="true">
-      <create-event *ngIf="!!applicationContext.loggedInUser"></create-event>
+  <div class="col-md-6">
+    <card [cardTitle]="'Events'" [isCollapse]="true">
+      No events
+      <la-button class="ml-2 mt-2"
+                 [text]="'Create event'"
+                 (click)="onCreateEventClicked()">
+      </la-button>
     </card>
   </div>
 </div>

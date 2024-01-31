@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AddBoardGameToCollectionDialog } from '../../dialogs/addBoardGameToCollectionDialog/addBoardGameToCollectionDialog';
 import { CreateGroupDialog } from '../../dialogs/createGroup/createGroupDialog';
@@ -22,7 +22,6 @@ import { BackendUtilities } from '../../../backend/utilities/backendUtilities';
 export class HomePageComponent implements OnInit, OnDestroy {
   private _uiSubscriptions: Subscription[] = [];
   private _dbSubscriptions: (() => void)[] = [];
-  showloading: boolean = false;
   public boardGameCollection: BoardGame[] = [];
   public groups: BehaviorSubject<CompactGroup[]>;
 
@@ -36,7 +35,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private _boardgameDetailDialog: BoardgameDetailDialog
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.reload();
     this._uiSubscriptions.push(
       this.applicationContext.requestAppReload.subscribe(() => this.reload())
@@ -48,7 +47,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public async reload() {
+  public async reload(): Promise<void> {
     if (!this.applicationContext.loggedInUser) {
       return;
     }
@@ -73,7 +72,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnDestroy() {
+  async ngOnDestroy(): Promise<void> {
     this._uiSubscriptions.forEach((s) => s.unsubscribe());
     this._dbSubscriptions.forEach((s) => s());
   }
@@ -90,17 +89,22 @@ export class HomePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onAddBoardGameToCollectionClicked() {
+  public onAddBoardGameToCollectionClicked(): void {
     this._addBoardGameToCollectionDialog.show();
   }
 
-  public onCreateGroupClicked() {
+  public onCreateGroupClicked(): void {
     this._createGroupDialog.show();
   }
 
-  public async onManageGroupClicked(id: string) {
+  public async onManageGroupClicked(id: string): Promise<void> {
     const game = (await this._bggApi.getBoardGames([266192]))[0];
+    console.log(game);
     this._boardgameDetailDialog.show(game);
     // this._bggApi.search('Wingspan', false);
+  }
+
+  public onCreateEventClicked(): void {
+    this.applicationContext.createEvent();
   }
 }

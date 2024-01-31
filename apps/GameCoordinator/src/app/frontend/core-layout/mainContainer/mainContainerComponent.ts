@@ -26,7 +26,7 @@ export class MainContainerComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _applicationContext: ApplicationContext
+    public applicationContext: ApplicationContext
   ) {}
 
   async ngOnInit() {
@@ -39,16 +39,20 @@ export class MainContainerComponent implements OnInit {
         this.appInitialized = true;
         console.log('app initialized');
         setTimeout(() => {
-          (this._applicationContext.appMainContainer =
+          (this.applicationContext.appMainContainer =
             this.dialogInjectionContainer),
             20;
-          this._applicationContext.appHeight =
+          this.applicationContext.appHeight =
             this.mainContainer.nativeElement.clientHeight;
-          this._applicationContext.appWidth =
+          this.applicationContext.appWidth =
             this.mainContainer.nativeElement.clientWidth;
         });
       });
 
     this.appMinHeight = window.innerHeight;
+  }
+
+  public cancelEvent(): void {
+    this.applicationContext.rightDrawerActive.next(false);
   }
 }

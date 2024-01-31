@@ -22,17 +22,18 @@
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
     "paths": {
+      "@gc-shared": ["libs/game-coordinator-shared/src/index.ts"],
       "@la-ui": ["libs/la-ui/src/index.ts"],
-      "@services": ["libs/services/src/index.ts"],
-      "@gc-shared": ["libs/game-coordinator-shared/src/index.ts"]
+      "@services": ["libs/services/src/index.ts"]
     },
     "rootDir": "."
   },
   "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
 }

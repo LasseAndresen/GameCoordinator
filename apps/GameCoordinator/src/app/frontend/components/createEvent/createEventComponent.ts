@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { InvitationStatus } from '../../../backend/models/Event';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Event } from '../../../backend/models/Event';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { AuthService } from '../../../backend/services/AuthService';
+import {ApplicationContext, DialogService} from '@services';
 
 @Component({
   templateUrl: './createEventComponent.html',
@@ -42,11 +43,14 @@ export class CreateEventComponent {
   public eventForm: FormGroup;
   public showEndtime = false;
 
+  @Output()
+  public cancelClicked: EventEmitter<void> = new EventEmitter<void>();
   constructor(
     private _fb: FormBuilder,
     private _googlePlaces: GooglePlacesAPICaller,
     private _firestoreService: FirestoreService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _dialogService: DialogService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -164,5 +168,9 @@ export class CreateEventComponent {
       };
       this._firestoreService.addEvent(newEvent);
     }
+  }
+
+  public onCancelClicked(): void {
+    this.cancelClicked.emit();
   }
 }
