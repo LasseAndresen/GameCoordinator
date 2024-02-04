@@ -2,7 +2,7 @@ export interface IViewFilter {
   property: string;
   operator: ViewFilterOperator;
   operands: IViewFilter[];
-  value: ViewFilterValueType;
+  value: string | number | boolean | Date;
   searchString: string;
   sorting: ViewSorting[];
   validate: () => void;
@@ -22,13 +22,6 @@ export type ViewFilterOperator =
   'IsNull' |
   'ContainsAny' |
   'ContainsAll';
-
-export type ViewFilterValueType =
-  'valueInt' |
-  'valueBoolean' |
-  'valueText' |
-  'valueNumber' |
-  'valueDate';
 
 export interface ViewSorting {
   property: string;

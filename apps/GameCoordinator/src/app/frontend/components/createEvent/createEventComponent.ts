@@ -87,21 +87,21 @@ export class CreateEventComponent {
     });
   }
 
-  onAddressUpdated(address: string) {
+  public onAddressUpdated(address: string): void {
     this.eventForm.get('location.address').setValue(address);
   }
 
-  addGamePollOption(): void {
+  public addGamePollOption(): void {
     (this.eventForm.get('gamesPoll.options') as FormArray).controls.push(
       this._fb.control('', Validators.required)
     );
   }
 
-  removeGamePollOption(index: number): void {
+  public removeGamePollOption(index: number): void {
     (this.eventForm.get('gamesPoll.options') as FormArray).removeAt(index);
   }
 
-  addParticipant(): void {
+  public addParticipant(): void {
     const participants = this.eventForm.get('participants') as FormArray;
     participants.push(
       this._fb.group({
@@ -114,11 +114,11 @@ export class CreateEventComponent {
     );
   }
 
-  removeParticipant(index: number): void {
+  public removeParticipant(index: number): void {
     (this.eventForm.get('participants') as FormArray).removeAt(index);
   }
 
-  addChatMessage(): void {
+  public addChatMessage(): void {
     (this.eventForm.get('eventChat') as FormArray).push(
       this._fb.group({
         author: ['', Validators.required],
@@ -128,17 +128,17 @@ export class CreateEventComponent {
     );
   }
 
-  removeChatMessage(index: number): void {
+  public removeChatMessage(index: number): void {
     (this.eventForm.get('eventChat') as FormArray).removeAt(index);
   }
 
-  removeEndTime() {
+  public removeEndTime(): void {
     this.showEndtime = false;
     this.eventForm.get('endDate').setValue(null);
     this.eventForm.get('endTime').setValue(null);
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     console.log('Form ', this.eventForm);
     if (this.eventForm.valid) {
       const eventData = this.eventForm.getRawValue();

@@ -98,7 +98,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   public async onManageGroupClicked(id: string): Promise<void> {
-    const game = (await this._bggApi.getBoardGames([266192]))[0];
+    const game = (await this._bggApi.getBoardGames([167791]))[0];
     console.log(game);
     this._boardgameDetailDialog.show(game);
     // this._bggApi.search('Wingspan', false);

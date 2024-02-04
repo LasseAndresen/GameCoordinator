@@ -1,3 +1,5 @@
+import {IViewFilter} from './IViewFilter';
+
 export interface IViewProvider {
-  getView: () => Promise<unknown>;
+  getView: (filter: IViewFilter, pageSize: number) => Promise<unknown>;
 }

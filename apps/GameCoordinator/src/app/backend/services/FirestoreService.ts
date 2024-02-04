@@ -135,7 +135,7 @@ export class FirestoreService {
 
   //#region Authentication
 
-  private async validateUserIsAuthenticated() {
+  private async validateUserIsAuthenticated(): Promise<void> {
     const loggedInUser = this._authService.user.value;
     if (!loggedInUser) {
       throw new Error('User was not authenticated');
@@ -154,7 +154,7 @@ export class FirestoreService {
     );
   }
 
-  public async addBoardGameToLibrary(game: BoardGame) {
+  public async addBoardGameToLibrary(game: BoardGame): Promise<void> {
     this.validateUserIsAuthenticated();
     await addDoc(this.getCollectionReference('BoardGames'), {
       name: game.name,
@@ -179,7 +179,7 @@ export class FirestoreService {
 
   //#region Collection
 
-  public async addBoardGameToCollection(game: BoardGame) {
+  public async addBoardGameToCollection(game: BoardGame): Promise<void> {
     this.validateUserIsAuthenticated();
     const loggedInUser = this._authService.user.value;
     setDoc(
@@ -191,7 +191,7 @@ export class FirestoreService {
     );
   }
 
-  public async removeBoardGameFromCollection(game: BoardGame) {
+  public async removeBoardGameFromCollection(game: BoardGame): Promise<void> {
     const loggedInUser = this._authService.user.value;
     if (!loggedInUser) {
       throw new Error('User was not authenticated');
@@ -357,7 +357,7 @@ export class FirestoreService {
     });
   }
 
-  public async addMemberToGroup(email: string, groupID: string) {
+  public async addMemberToGroup(email: string, groupID: string): Promise<void> {
     // TODO: send invitation
     this.validateUserIsAuthenticated();
     const userDoc = (
@@ -381,7 +381,7 @@ export class FirestoreService {
     });
   }
 
-  public async removeUserFromGroup(userGuid: string, groupGuid: string) {
+  public async removeUserFromGroup(userGuid: string, groupGuid: string): Promise<void> {
     this.validateUserIsAuthenticated();
     deleteDoc(doc(this.afs, 'Groups/' + groupGuid + '/Members/' + userGuid));
   }
@@ -390,7 +390,7 @@ export class FirestoreService {
     gameGuid: string,
     groupGuid: string,
     favorite: boolean
-  ) {
+  ): Promise<void> {
     this.validateUserIsAuthenticated();
     await updateDoc(
       doc(this.afs, 'Groups/' + groupGuid + 'BoardGames/' + gameGuid),
@@ -400,7 +400,7 @@ export class FirestoreService {
     );
   }
 
-  public async addNewGroupPost(post: GroupPost) {
+  public async addNewGroupPost(post: GroupPost): Promise<void> {
     this.validateUserIsAuthenticated();
     const groupPostFactory = new GroupPostFactory();
     const toPost = groupPostFactory.toDbObject(post);
@@ -415,7 +415,7 @@ export class FirestoreService {
 
   //#region Events
 
-  public async addEvent(event: Event) {
+  public async addEvent(event: Event): Promise<void> {
     this.validateUserIsAuthenticated();
     const eventFactory = new EventFactory();
     const toPost = eventFactory.toDbObject(event);

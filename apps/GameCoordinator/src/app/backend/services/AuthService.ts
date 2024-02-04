@@ -80,7 +80,7 @@ export class AuthService {
     );
   }
 
-  public getEmail() {
+  public getEmail(): string {
     return this.user && this._user.email;
   }
 

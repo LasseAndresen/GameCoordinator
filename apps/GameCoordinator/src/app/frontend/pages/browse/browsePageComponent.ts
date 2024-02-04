@@ -27,7 +27,7 @@ import {ViewBoardGame} from '@gc-shared';
   ],
   providers: [],
 })
-export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class BrowsePageComponent implements OnInit, OnDestroy {
   private _uiSubscriptions: Subscription[] = [];
   private _dbSubscriptions: (() => void)[] = [];
   public showloading = false;
@@ -48,34 +48,30 @@ export class BrowsePageComponent implements OnInit, AfterViewInit, OnDestroy {
     public applicationContext: ApplicationContext,
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.reload();
     this._uiSubscriptions.push(
       this.applicationContext.requestAppReload.subscribe(() => this.reload())
     );
-    const view = await this._weaviateService.getView();
+    const view = await this._weaviateService.getView(null, 50);
     console.log('View ', view);
     this.dataSource = new MatTableDataSource<ViewBoardGame>(view.rows);
     this.displayedColumns = view.columns;
     this.dataSource.paginator = this.paginator;
   }
 
-  ngAfterViewInit() {
-
-  }
-
-  public async reload() {
+  public async reload(): Promise<void> {
     if (!this.applicationContext.loggedInUser) {
       return;
     }
   }
 
-  async ngOnDestroy() {
+  public async ngOnDestroy(): Promise<void> {
     this._uiSubscriptions.forEach((s) => s.unsubscribe());
     this._dbSubscriptions.forEach((s) => s());
   }
 
-  protected applyFilter(event: KeyboardEvent) {}
+  protected applyFilter(event: KeyboardEvent): void {}
 
   public test() {
     console.log('Clicked');

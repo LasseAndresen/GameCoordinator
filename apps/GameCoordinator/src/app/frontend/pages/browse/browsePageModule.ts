@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import {BoardgameDetailComponent} from '../../components/boardgameDetail/boardgameDetailComponent';
+import {ColumnHeaderNamePipe} from './pipes/columnHeaderName';
 
 @NgModule({
   declarations: [BrowsePageComponent],
@@ -17,7 +18,8 @@ import {BoardgameDetailComponent} from '../../components/boardgameDetail/boardga
     MatTableModule,
     MatPaginatorModule,
     MatInputModule,
-    BoardgameDetailComponent
+    BoardgameDetailComponent,
+    ColumnHeaderNamePipe
   ],
 })
 export class BrowsePageModule {}
