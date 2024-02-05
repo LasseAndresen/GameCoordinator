@@ -5,6 +5,8 @@ export class WeaviateFilter implements IViewFilter {
   operator: ViewFilterOperator;
   operands: WeaviateFilter[];
   valueType: ViewFilterValueType;
+  searchString: string;
+  sorting: ViewSorting[];
   private _value: string | number | boolean | Date;
   set value(val: string | number | boolean | Date) {
     this._value = val;
@@ -23,8 +25,6 @@ export class WeaviateFilter implements IViewFilter {
   get value(): string | number | boolean | Date {
     return this._value;
   }
-  searchString: string;
-  sorting: ViewSorting[];
 
   public validate(): void {
     if (this.operator === 'And' || this.operator === 'Or') {

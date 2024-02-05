@@ -21,7 +21,16 @@ export class WeaviateService implements IViewProvider {
   public async getView(filter: WeaviateFilter, pageSize: number): Promise<WeaviateView> {
     let getter = this._client.graphql
       .get()
-      .withClassName('BoardGame')
+      .withClassName('BoardGame');
+    if (!!filter.sorting) {
+      getter = getter
+        .withSort(filter.sorting.map(sort => ({
+          path: [sort.property],
+          order: sort.order
+        })));
+    }
+
+    getter = getter
       .withFields('name description yearPublished minPlayers maxPlayers minAge rating weight thumbnail');
     const parsedFilter = this.parseFilter(filter);
     if (!!parsedFilter) {
