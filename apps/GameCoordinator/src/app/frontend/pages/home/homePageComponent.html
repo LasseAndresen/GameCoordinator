@@ -64,7 +64,14 @@
 
   <div class="col-md-6">
     <card [cardTitle]="'Events'" [isCollapse]="true">
-      No events
+      <ng-container *ngIf="events.length === 0">
+        No events
+      </ng-container>
+      <div class="d-flex flex-column">
+        <div *ngFor="let event of events" style="height: 15px">
+          {{event.title}}
+        </div>
+      </div>
       <la-button class="ml-2 mt-2"
                  [text]="'Create event'"
                  (click)="onCreateEventClicked()">

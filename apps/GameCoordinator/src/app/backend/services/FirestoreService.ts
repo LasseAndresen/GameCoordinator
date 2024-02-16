@@ -185,9 +185,7 @@ export class FirestoreService {
     );
   }
 
-  public async getBoardGameCollection(
-    userGUID: string = null
-  ): Promise<BoardGame[]> {
+  public async getBoardGameCollection(userGUID: string = null): Promise<BoardGame[]> {
     if (userGUID === null && !this._authService.authenticated) {
       return [];
     }
@@ -406,6 +404,22 @@ export class FirestoreService {
     await addDoc(this.getCollectionReference('Events'), {
       ...toPost,
     });
+  }
+
+  public async getEvents(userGUID: string = null): Promise<Event[]> {
+    if (userGUID === null && !this._authService.authenticated) {
+      return [];
+    }
+
+    if (userGUID === null) {
+      // If not provided, we get for currently logged in user
+      userGUID = this._authService.user.value.uid;
+    }
+    console.log('Getting board games for user ', userGUID);
+    return this.queryCollection<Event, EventFactory>(
+      'Events',
+      new EventFactory()
+    );
   }
 
   //#endregion Events

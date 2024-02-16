@@ -12,6 +12,7 @@ import { BoardGameGeekApiCaller } from '../../../backend/services/boardGameGeekA
 import { BoardgameDetailComponent } from '../../components/boardgameDetail/boardgameDetailComponent';
 import { BoardgameDetailDialog } from '../../dialogs/boardgameDetailsDialog/boardgameDetailDialog';
 import { BackendUtilities } from '../../../backend/utilities/backendUtilities';
+import {Event} from '../../../backend/models/Event';
 
 @Component({
   selector: 'home-page',
@@ -24,6 +25,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private _dbSubscriptions: (() => void)[] = [];
   public boardGameCollection: BoardGame[] = [];
   public groups: BehaviorSubject<CompactGroup[]>;
+  public events: Event[] = [];
 
   constructor(
     private _firebaseService: FirestoreService,
@@ -53,8 +55,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
     const boardGamePromise = this.loadBoardGames();
     const groupPromise = this.loadGroups();
+    const eventPromise = this.loadEvents();
 
-    Promise.all([boardGamePromise, groupPromise]);
+    Promise.all([boardGamePromise, groupPromise, eventPromise]);
   }
 
   public async loadBoardGames(): Promise<void> {
@@ -69,6 +72,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this._firebaseService.getUserGroups().then((data) => {
       console.log('Setting groups ', data);
       this.groups = data;
+    });
+  }
+
+  private async loadEvents(): Promise<void> {
+    this._firebaseService.getEvents().then(data => {
+      console.log('Setting events ', data);
+      this.events = data;
     });
   }
 

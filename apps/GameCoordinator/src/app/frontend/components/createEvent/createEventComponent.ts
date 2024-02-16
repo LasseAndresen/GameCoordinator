@@ -92,7 +92,7 @@ export class CreateEventComponent {
 
   public onAddressUpdated(address: LocationDetails): void {
     console.log('Got adress ', address);
-    this.eventForm.get('location.address').setValue(address.vicinity);
+    this.eventForm.get('location.address').setValue(address.formattedAddress);
     this.eventForm.get('location.position').setValue(address.position);
   }
 
