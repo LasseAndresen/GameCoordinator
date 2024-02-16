@@ -50,10 +50,7 @@ export class FirestoreService {
   //#region Base methods
 
   // Region: Generic methods that should be used by all public functions
-  private async queryCollection<
-    TEntity extends IDataBaseEntity<TEntity>,
-    TFactory
-  >(
+  private async queryCollection<TEntity extends IDataBaseEntity<TEntity>, TFactory>(
     path: string,
     objectFactory: IDataBaseEntityFactory<TFactory>
   ): Promise<TEntity[]> {
@@ -67,10 +64,7 @@ export class FirestoreService {
     return toReturn;
   }
 
-  private async queryCollectionWithListener<
-    TEntity extends IDataBaseEntity<TEntity>,
-    TFactory
-  >(
+  private async queryCollectionWithListener<TEntity extends IDataBaseEntity<TEntity>, TFactory>(
     path: string,
     objectFactory: IDataBaseEntityFactory<TFactory>
   ): Promise<QueryObservable<TEntity[]>> {
@@ -92,10 +86,7 @@ export class FirestoreService {
     } as QueryObservable<any>;
   }
 
-  private async querySingleDocument<
-    TEntity extends IDataBaseEntity<TEntity>,
-    TFactory
-  >(
+  private async querySingleDocument<TEntity extends IDataBaseEntity<TEntity>, TFactory>(
     collectionPath: string,
     docID: string,
     objectFactory: IDataBaseEntityFactory<TFactory>
@@ -105,10 +96,7 @@ export class FirestoreService {
     );
   }
 
-  private async querySingleDocumentWithListener<
-    TEntity extends IDataBaseEntity<TEntity>,
-    TFactory
-  >(
+  private async querySingleDocumentWithListener<TEntity extends IDataBaseEntity<TEntity>, TFactory>(
     collectionPath: string,
     docID: string,
     objectFactory: IDataBaseEntityFactory<TFactory>
@@ -125,9 +113,7 @@ export class FirestoreService {
     } as QueryObservable<any>;
   }
 
-  private getCollectionReference(
-    collectionPath: string
-  ): CollectionReference<DocumentData> {
+  private getCollectionReference(collectionPath: string): CollectionReference<DocumentData> {
     return collection(this.afs, collectionPath);
   }
 
@@ -135,7 +121,7 @@ export class FirestoreService {
 
   //#region Authentication
 
-  private async validateUserIsAuthenticated(): Promise<void> {
+  private validateUserIsAuthenticated(): void {
     const loggedInUser = this._authService.user.value;
     if (!loggedInUser) {
       throw new Error('User was not authenticated');
@@ -161,14 +147,12 @@ export class FirestoreService {
     });
   }
 
-  public async getBoardGameLibrary(
-    withListener: boolean
-  ): Promise<BoardGame[] | QueryObservable<any[]>> {
+  public async getBoardGameLibrary(withListener: boolean): Promise<BoardGame[] | QueryObservable<any[]>> {
     if (withListener) {
-      return await this.queryCollectionWithListener<
-        BoardGame,
-        BoardGameFactory
-      >('BoardGames', new BoardGameFactory());
+      return await this.queryCollectionWithListener<BoardGame, BoardGameFactory>(
+        'BoardGames',
+        new BoardGameFactory()
+      );
     } else {
       return await this.queryCollection<BoardGame, BoardGameFactory>(
         'BoardGames',

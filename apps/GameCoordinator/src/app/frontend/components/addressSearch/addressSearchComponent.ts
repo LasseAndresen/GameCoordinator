@@ -16,6 +16,7 @@ import {
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, skip } from 'rxjs/operators';
 import GooglePlacesAPICaller, {
+  LocationDetails,
   LocationSuggestion,
 } from '../../../backend/services/GooglePlacesAPICaller';
 import { MatInputModule } from '@angular/material/input';
@@ -32,13 +33,14 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
   private _searchQueue: string[] = [];
 
   public options: LocationSuggestion[] = [];
+  public searchText = '';
   public isLoading = false;
 
   @Input()
   public width = '100%';
 
   @Output()
-  public addressSelected = new EventEmitter<string>();
+  public addressSelected = new EventEmitter<LocationDetails>();
 
   @ViewChild('searchInput')
   private _inputElement: ElementRef;
@@ -57,7 +59,7 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
     this._subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  private searchInputUpdated(searchString: string) {
+  private searchInputUpdated(searchString: string): void {
     this._searchQueue.push(searchString);
     if (this._searchQueue.length > 1) {
       return;
@@ -84,17 +86,23 @@ export class AddressSearchComponent implements OnInit, OnDestroy {
     this.checkSearchQueue();
   }
 
-  private checkSearchQueue() {
+  private checkSearchQueue(): void {
     if (this._searchQueue.length > 0) {
       this.updateOptions();
     }
   }
 
-  public onSearchInputChange(event: any) {
+  public onSearchInputChange(event: any): void {
+    this.searchText = event.target.value;
     this._inputObservable.next(event.target.value);
   }
 
-  public onOptionSelected(optionEvent: MatAutocompleteSelectedEvent) {
-    this.addressSelected.emit(optionEvent.option.value);
+  public async onOptionSelected(optionEvent: MatAutocompleteSelectedEvent): Promise<void> {
+    const option = optionEvent.option.value as LocationSuggestion;
+    this.searchText = '';
+    setTimeout(() => this.searchText = option.description);
+    const attributionDiv = document.getElementById('attributionDiv') as HTMLDivElement;
+    const details = await this._placesAPI.getDetails(option.place_id, attributionDiv);
+    this.addressSelected.emit(details);
   }
 }

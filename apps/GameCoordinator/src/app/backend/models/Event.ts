@@ -1,4 +1,4 @@
-import { QueryDocumentSnapshot, Timestamp } from '@angular/fire/firestore';
+import {GeoPoint, QueryDocumentSnapshot, Timestamp } from '@angular/fire/firestore';
 import { ObjectUtilities } from '../../frontend/utilities/ObjectUtilities';
 import { IDataBaseEntity } from './IDataBaseEntity';
 import { IDataBaseEntityFactory } from './IDatabaseEntityFactory';
@@ -41,6 +41,7 @@ export interface Event extends IDataBaseEntity<Event> {
   location: {
     description: string;
     address: string; // a maps link
+    position: GeoPoint;
   };
   gamesPoll?: {
     options: string[];

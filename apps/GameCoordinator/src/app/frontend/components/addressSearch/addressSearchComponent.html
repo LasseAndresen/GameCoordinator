@@ -7,9 +7,10 @@
       type="text"
       placeholder="Type to search"
       autofocus
-      (input)="onSearchInputChange($event)"
       matInput
       [matAutocomplete]="auto"
+      [value]="searchText"
+      (input)="onSearchInputChange($event)"
     />
   </mat-form-field>
   <i
@@ -17,15 +18,15 @@
     class="position-absolute fas fa-spinner fa-spin"
     style="right: 5px; top: 5px"
   ></i>
+  <div id="attributionDiv" class="position-absolute" style="bottom: -15px; left: 0;"></div>
 </div>
 
 <mat-autocomplete
   #auto="matAutocomplete"
   [autoActiveFirstOption]="true"
-  [panelWidth]="width"
   (optionSelected)="onOptionSelected($event)"
 >
-  <mat-option *ngFor="let game of options" [value]="game.description">
+  <mat-option *ngFor="let game of options" [value]="game">
     <div class="d-flex flex-row">
       <div class="align-self-center" style="height: 24px; width: 24px">
         <i class="align-self-center fa-solid fa-location-dot"></i>

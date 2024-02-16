@@ -14,6 +14,7 @@ import {
 import { AbstractFormControlFromFormPipe } from './abstractFormControlFromFormPipe';
 import MapQuestClient from '../../../backend/services/MapQuestService';
 import GooglePlacesAPICaller, {
+  LocationDetails,
   LocationSuggestion,
 } from '../../../backend/services/GooglePlacesAPICaller';
 import { AddressSearchComponent } from '../addressSearch/addressSearchComponent';
@@ -22,6 +23,7 @@ import { Event } from '../../../backend/models/Event';
 import { FirestoreService } from '../../../backend/services/FirestoreService';
 import { AuthService } from '../../../backend/services/AuthService';
 import {ApplicationContext, DialogService} from '@services';
+import { GeoPoint } from '@angular/fire/firestore';
 
 @Component({
   templateUrl: './createEventComponent.html',
@@ -69,6 +71,7 @@ export class CreateEventComponent {
       location: this._fb.group({
         description: [''],
         address: [''],
+        position: ['']
       }),
       gamesPoll: this._fb.group({
         options: this._fb.array([]),
@@ -87,8 +90,10 @@ export class CreateEventComponent {
     });
   }
 
-  public onAddressUpdated(address: string): void {
-    this.eventForm.get('location.address').setValue(address);
+  public onAddressUpdated(address: LocationDetails): void {
+    console.log('Got adress ', address);
+    this.eventForm.get('location.address').setValue(address.vicinity);
+    this.eventForm.get('location.position').setValue(new GeoPoint(address.position.lat, address.position.long));
   }
 
   public addGamePollOption(): void {
@@ -155,6 +160,7 @@ export class CreateEventComponent {
         location: {
           description: eventData.location.description,
           address: eventData.location.address,
+          position: eventData.location.position
         },
         participants: [
           {

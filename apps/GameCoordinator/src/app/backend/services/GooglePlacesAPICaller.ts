@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { env } from 'process';
 import { environment } from '../../../environments/environment';
 import {} from 'googlemaps';
+import * as googlemaps from 'googlemaps';
 
 export interface LocationSuggestion {
   description: string;
@@ -12,6 +13,28 @@ export interface LocationSuggestion {
     secondary_text: string;
   };
   types: string[];
+}
+
+export interface LocationDetails {
+  placeID: string;
+  position: {
+    lat: number;
+    long: number;
+  };
+  boundingBox: {
+    sw: {
+      lat: number;
+      long: number;
+    };
+    ne: {
+      lat: number;
+      long: number;
+    };
+  };
+  name: string;
+  formattedAddress: string;
+  vicinity: string;
+  mapsUrl: string;
 }
 
 @Injectable()
@@ -37,61 +60,69 @@ class GooglePlacesAPICaller {
     const service = new google.maps.places.AutocompleteService();
     return new Promise<LocationSuggestion[]>((resolve, reject) => {
       try {
-        service.getPlacePredictions(
-          request,
-          (
-            result: google.maps.places.AutocompletePrediction[],
-            status: google.maps.places.PlacesServiceStatus
-          ) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-              resolve(
-                result.map(
-                  (location) =>
-                    ({
-                      description: location.description,
-                      place_id: location.place_id,
-                      structured_formatting: {
-                        main_text: location.structured_formatting.main_text,
-                        secondary_text:
-                          location.structured_formatting.secondary_text,
-                      },
-                    } as LocationSuggestion)
-                )
-              );
-            } else {
-              resolve([]);
-            }
-          }
-        );
+        service.getPlacePredictions(request, (result: google.maps.places.AutocompletePrediction[], status: google.maps.places.PlacesServiceStatus) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            resolve(
+              result.map(
+                (location) =>
+                  ({
+                    description: location.description,
+                    place_id: location.place_id,
+                    structured_formatting: {
+                      main_text: location.structured_formatting.main_text,
+                      secondary_text:
+                        location.structured_formatting.secondary_text,
+                    },
+                  } as LocationSuggestion)
+              )
+            );
+          } else {
+            resolve([]);
+          }});
       } catch (e) {
         reject(e);
       }
     });
   }
 
-  async search_deprecated(query: string): Promise<LocationSuggestion[]> {
-    if (query.length < 2 || query.length > 100) {
-      return [];
-    }
-    const types = ['address'].join(',');
-    const url = `${this.baseUrl}?key=${environment.googlePlacesAPIKey}&input=${query}`;
-    // &types=${collection}`;
-    console.log('Url ', url);
-    const response: any = await this._httpClient.get(url).toPromise();
-    console.log('Response', response);
-    if (response.status === 'OK') {
-      return response.results.map(
-        (location: any) =>
-          ({
-            description: location.description,
-            place_id: location.place_id,
-            structured_formatting: location.structured_formatting,
-          } as LocationSuggestion)
-      );
-    } else {
-      console.log('Error from google places api: ' + JSON.stringify(response));
-      return [];
-    }
+  public async getDetails(placeID: string, attributionDiv: HTMLDivElement): Promise<LocationDetails> {
+    const service = new google.maps.places.PlacesService(attributionDiv);
+    const request = {
+      placeId: placeID
+    };
+    return new Promise<LocationDetails>((resolve, reject) => {
+      try {
+        service.getDetails(request, (result: google.maps.places.PlaceResult, status: google.maps.places.PlacesServiceStatus) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            resolve({
+              placeID: result.place_id,
+              position: {
+                lat: result.geometry.location.lat(),
+                long: result.geometry.location.lng(),
+              },
+              boundingBox: {
+                sw: {
+                  lat: result.geometry.viewport.getSouthWest().lat(),
+                  long: result.geometry.viewport.getSouthWest().lng(),
+                },
+                ne: {
+                  lat: result.geometry.viewport.getNorthEast().lat(),
+                  long: result.geometry.viewport.getNorthEast().lng(),
+                },
+              },
+              name: result.name,
+              formattedAddress: result.formatted_address,
+              vicinity: result.vicinity,
+              mapsUrl: result.url,
+            });
+          } else {
+            resolve(null);
+          }
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 }
 
