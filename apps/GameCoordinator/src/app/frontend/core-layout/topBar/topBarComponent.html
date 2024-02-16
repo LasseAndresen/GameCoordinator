@@ -1,11 +1,12 @@
 <div class="top-bar">
   <div class="d-flex flex-row justify-content-between p-2">
-    <div class="avatar mouse-hand" (onClick)="onLogoClick()">
+    <div class="d-flex align-items-center avatar mouse-hand" (onClick)="onLogoClick()">
       <img
         style="width: 64px; height: 64px"
         src="{{avatarImgSrc}}"
         alt="avatar"
       />
+      <span class="ml-2 siteName" style="font-size: 35px">Game Coordinator</span>
     </div>
     <div class="ml-2">
       <ng-container *ngIf="!loggedIn">
