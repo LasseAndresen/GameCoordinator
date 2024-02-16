@@ -1,4 +1,4 @@
-import { Timestamp, serverTimestamp } from '@angular/fire/firestore';
+import {GeoPoint, Timestamp, serverTimestamp } from '@angular/fire/firestore';
 
 export class ObjectUtilities {
   public static deepCopyObject(object: {}) {
@@ -10,7 +10,11 @@ export class ObjectUtilities {
       } else if (field === 'timestamp') {
         value = serverTimestamp();
       } else if (typeof value === 'object') {
-        value = this.deepCopyObject(value);
+        if (!!value.lat && !!value.long) {
+          value = new GeoPoint(value.lat, value.long);
+        } else {
+          value = this.deepCopyObject(value);
+        }
       }
       toReturn[field] = value;
     }

@@ -93,7 +93,7 @@ export class CreateEventComponent {
   public onAddressUpdated(address: LocationDetails): void {
     console.log('Got adress ', address);
     this.eventForm.get('location.address').setValue(address.vicinity);
-    this.eventForm.get('location.position').setValue(new GeoPoint(address.position.lat, address.position.long));
+    this.eventForm.get('location.position').setValue(address.position);
   }
 
   public addGamePollOption(): void {
