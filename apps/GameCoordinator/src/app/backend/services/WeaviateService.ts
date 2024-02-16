@@ -22,7 +22,7 @@ export class WeaviateService implements IViewProvider {
     let getter = this._client.graphql
       .get()
       .withClassName('BoardGame');
-    if (!!filter.sorting) {
+    if (!!filter?.sorting) {
       getter = getter
         .withSort(filter.sorting.map(sort => ({
           path: [sort.property],
